@@ -1,0 +1,2 @@
+cd bin
+java -cp ".:../lib/*" genSummarieHibi.GenSum $1 $2
