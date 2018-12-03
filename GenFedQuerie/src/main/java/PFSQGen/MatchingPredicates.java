@@ -156,8 +156,8 @@ public class MatchingPredicates {
     
     
 
-    //public int testExistingMatch(String predicate1, String predicate2) {
-    public int testExistingMatch2Predicates(String predicate1, String predicate2, Query q1, Query q2) {
+    public int testExistingMatch(String predicate1, String predicate2) {
+//     public int testExistingMatch2Predicates(String predicate1, String predicate2, Query q1, Query q2) {
         // System.out.println("****** "+matchingTable.get(2).getPredicate());//+" *sara* "+matchingTable.get(0).joinableWith.contains(predicate2));
         for (int i = 0; i < matchingTable.size(); i++) {
            // predicate2 = "http://www.w3.org/2004/02/skos/core#subject";

@@ -138,9 +138,9 @@ private Set<Node> logsPredicates = new HashSet<Node>();
             ++countLarge;
             HashSet<String> temp = new HashSet<String>();
             for (Node nd2 : log2PredicatesPrun) {
-                if( countSmall != 1 && (countSmall * 100)/log2PredicatesPrun.size() % 25 <= ((countSmall-1) * 100)/log2PredicatesPrun.size() % 25){
+//                 if( countSmall != 1 && (countSmall * 100)/log2PredicatesPrun.size() % 25 <= ((countSmall-1) * 100)/log2PredicatesPrun.size() % 25){
                     System.out.println("   "+(countSmall * 100)/log2PredicatesPrun.size()+"% : "+countSmall+" / "+log2PredicatesPrun.size()+" , saved: "+temp.size());
-                }
+//                 }
                 ++countSmall;
                 String q = executor.createPath(nd1,nd2,sparqlEndpoint2);
                 cnt++;
@@ -385,12 +385,11 @@ private Set<Node> logsPredicates = new HashSet<Node>();
         return q;
     }
 
-//     public void pruningPredicatesLogs(ArrayList<String> sumFiles, String so, String log1PredicatesPrunFile, String log2PredicatesPrunFile) throws IOException {
-    public void pruningPredicatesLogs(ArrayList<String> sumFiles, String so) throws IOException {
-//         FileWriter fwPre1P = new FileWriter(log1PredicatesPrunFile);
-//         BufferedWriter bwPre1P = new BufferedWriter(fwPre1P);
-//         FileWriter fwPre2P = new FileWriter(log2PredicatesPrunFile);
-//         BufferedWriter bwPre2P = new BufferedWriter(fwPre2P);
+    public void pruningPredicatesLogs(ArrayList<String> sumFiles, String so, String log1PredicatesPrunFile, String log2PredicatesPrunFile) throws IOException {
+        FileWriter fwPre1P = new FileWriter(log1PredicatesPrunFile);
+        BufferedWriter bwPre1P = new BufferedWriter(fwPre1P);
+        FileWriter fwPre2P = new FileWriter(log2PredicatesPrunFile);
+        BufferedWriter bwPre2P = new BufferedWriter(fwPre2P);
 
         log1Predicates = new HashSet<Node>();
         log2Predicates = new HashSet<Node>();
@@ -414,44 +413,61 @@ private Set<Node> logsPredicates = new HashSet<Node>();
         }
         System.out.println("Testing joinable predicates ...");
         System.out.println(log1Predicates.size());
+        System.out.println(log2Predicates.size());
+        int result = 0;
         for (Node nlog1 : log1Predicates) {  
             if ((nlog1 != null) && (!nlog1.toString().substring(0, 1).equals("?"))) {
-                if (so.equals("path")) {
-                    List<String> ObjAuthorityP1 = matcher.getObjAuthority(nlog1.toString(), sumFiles.get(0));
-                    if ((ObjAuthorityP1 != null)) {//System.out.println(log2Predicates.size());                                                           
-                        for (Node nlog2 : log2Predicates) {
+                for (Node nlog2 : log2Predicates) {
                             if ((nlog2 != null) && (!nlog2.toString().substring(0, 1).equals("?"))) {
-                                List<String> SubjAuthorityP2 = matcher.getSubjAuthority(nlog2.toString(), sumFiles.get(1));
-                                if (SubjAuthorityP2 != null) {
-                                    Set<String> intersection1 = new HashSet<String>(ObjAuthorityP1); // use the copy constructor                          
-                                    intersection1.retainAll(SubjAuthorityP2);
-                                    if (intersection1.size() > 0) {//System.out.println(nlog1+"    .    "+nlog2);                                         
-                                        log1PredicatesPrun.add(nlog1);
-                                        log2PredicatesPrun.add(nlog2);
-                                    }
+                                result = matcher.testExistingMatch(nlog1.toString(), nlog2.toString());
+                                if(result == 1 && so.equals("path")){
+                                    log1PredicatesPrun.add(nlog1);
+                                    log2PredicatesPrun.add(nlog2);
+                                }else if(result == 2 && so.equals("path")){
+                                    log1PredicatesPrun.add(nlog1);
+                                    log2PredicatesPrun.add(nlog2);
+                                }else if(result == 3){
+                                    log1PredicatesPrun.add(nlog1);
+                                    log2PredicatesPrun.add(nlog2);
                                 }
                             }
                         }
-                    }
-                }else if (so.equals("star")) {
-                    List<String> SubjAuthorityP1 = matcher.getSubjAuthority(nlog1.toString(), sumFiles.get(0));
-                    if ((SubjAuthorityP1 != null)) {
-                        for (Node nlog2 : log2Predicates) {
-                            if ((nlog2 != null) && (!nlog2.toString().substring(0, 1).equals("?"))) {
-                                List<String> SubjAuthorityP2 = matcher.getSubjAuthority(nlog2.toString(), sumFiles.get(1));
-                                if (SubjAuthorityP2 != null) {
-                                    Set<String> intersection1 = new HashSet<String>(SubjAuthorityP1); // use the copy constructor                         
-                                    intersection1.retainAll(SubjAuthorityP2);
-                                    if (intersection1.size() > 0) {
-                                        log1PredicatesPrun.add(nlog1);
-                                        log2PredicatesPrun.add(nlog2);
-
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+//                 if (so.equals("path")) {
+// //                     List<String> ObjAuthorityP1 = matcher.getObjAuthority(nlog1.toString(), sumFiles.get(0));
+//                     if ((ObjAuthorityP1 != null)) {//System.out.println(log2Predicates.size());                                                           
+//                         for (Node nlog2 : log2Predicates) {
+//                             if ((nlog2 != null) && (!nlog2.toString().substring(0, 1).equals("?"))) {
+// //                                 List<String> SubjAuthorityP2 = matcher.getSubjAuthority(nlog2.toString(), sumFiles.get(1));
+//                                 if (SubjAuthorityP2 != null) {
+// //                                     Set<String> intersection1 = new HashSet<String>(ObjAuthorityP1); // use the copy constructor                          
+// //                                     intersection1.retainAll(SubjAuthorityP2);
+//                                     if (intersection1.size() > 0) {//System.out.println(nlog1+"    .    "+nlog2);                                         
+//                                         log1PredicatesPrun.add(nlog1);
+//                                         log2PredicatesPrun.add(nlog2);
+//                                     }
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 }else if (so.equals("star")) {
+//                     List<String> SubjAuthorityP1 = matcher.getSubjAuthority(nlog1.toString(), sumFiles.get(0));
+//                     if ((SubjAuthorityP1 != null)) {
+//                         for (Node nlog2 : log2Predicates) {
+//                             if ((nlog2 != null) && (!nlog2.toString().substring(0, 1).equals("?"))) {
+//                                 List<String> SubjAuthorityP2 = matcher.getSubjAuthority(nlog2.toString(), sumFiles.get(1));
+//                                 if (SubjAuthorityP2 != null) {
+//                                     Set<String> intersection1 = new HashSet<String>(SubjAuthorityP1); // use the copy constructor                         
+//                                     intersection1.retainAll(SubjAuthorityP2);
+//                                     if (intersection1.size() > 0) {
+//                                         log1PredicatesPrun.add(nlog1);
+//                                         log2PredicatesPrun.add(nlog2);
+// 
+//                                     }
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 }
             }
         }
     }

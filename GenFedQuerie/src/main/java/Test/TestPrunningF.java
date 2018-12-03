@@ -37,8 +37,10 @@ public class TestPrunningF {
 
 //         String log1PredPrunFile = "log1PredPrunFile.txt";
 //         String log2PredPrunFile = "log2PredPrunFile.txt";
-//         String log1PrunFile = "log1PrunFile.txt";
-//         String log2PrunFile = "log2PrunFile.txt";
+        String log1PrunFile = "log1PrunFile.txt";
+        String log2PrunFile = "log2PrunFile.txt";
+        String log1PrunFileRev = "log1PrunFileRev.txt";
+        String log2PrunFileRev = "log2PrunFileRev.txt";
 
 //         String log1ClassSummary = "log1ClassSummary.txt";
 //         String log2ClassSummary = "log2ClassSummary.txt";
@@ -54,9 +56,9 @@ public class TestPrunningF {
         System.out.println();
         System.out.println("----------------------------------------------");
         
-        PLpath.pruningPredicatesLogs(sumFileList, "path");                                                            
-//         PLpath.pruningLog1Predicates(log1PrunFile);                                                                                                     
-//         PLpath.pruningLog2Predicates(log2PrunFile);
+        PLpath.pruningPredicatesLogs(sumFileList, "path", log1PrunFile, log2PrunFile);                                                            
+        PLpath.pruningLog1Predicates(log1PrunFile);                                                                                                     
+        PLpath.pruningLog2Predicates(log2PrunFile);
         
         PLpath.genFedMinimalPathService(sparqlEndpoint1, sparqlEndpoint2, genFedMinimalPathFileDB);
         System.out.println();
@@ -66,9 +68,9 @@ public class TestPrunningF {
         System.out.println();
         System.out.println("----------------------------------------------");
         
-        PLpath.pruningPredicatesLogs(sumFileList, "star");                                                            
-//         PLpath.pruningLog1Predicates(log1PrunFile);                                                                                                     
-//         PLpath.pruningLog2Predicates(log2PrunFile);    
+        PLpath.pruningPredicatesLogs(sumFileList, "star", log1PrunFile, log2PrunFile);                                                            
+        PLpath.pruningLog1Predicates(log1PrunFile);                                                                                                     
+        PLpath.pruningLog2Predicates(log2PrunFile);    
         
         PLpath.genFedMinimalStarService(sparqlEndpoint1, sparqlEndpoint2, genFedMinimalStarFile);
         
@@ -84,7 +86,10 @@ public class TestPrunningF {
         PruningLogsF PLpathRev = new PruningLogsF(queriesFilePath2, queriesFilePath1, sumFileListRev, "nonCypte");
         PLpathRev.setExecutor(new SageExecution());
         
-        PLpathRev.pruningPredicatesLogs(sumFileListRev, "path");
+        PLpathRev.pruningPredicatesLogs(sumFileListRev, "path", log1PrunFileRev, log2PrunFileRev);
+        PLpath.pruningLog1Predicates(log1PrunFileRev);                                                                                                     
+        PLpath.pruningLog2Predicates(log2PrunFileRev);
+        
         PLpathRev.genFedMinimalPathService(sparqlEndpoint2, sparqlEndpoint1, genFedMinimalPathFileSW);
     }
 }
