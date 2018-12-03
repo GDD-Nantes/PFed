@@ -18,8 +18,8 @@ public class TestCountNbPredicates{
         
         Queries queries1 = new Queries("queries/SWDF-CleanQueriesDecode.txt", "nonCrypte");
         Queries queries2 = new Queries("queries/DBpedia3.5.1-CleanQueriesDecode.txt", "nonCrypte");
-        HashSet<Node> log1Predicates = new HashSet<Node>();
-        HashSet<Node> log2Predicates = new HashSet<Node>();
+        HashSet<String> log1Predicates = new HashSet<String>();
+        HashSet<String> log2Predicates = new HashSet<String>();
         System.out.println("reading log1 ...");
         for (SparqlQueryParser q1 : queries1.getQueries()) {
             Query query1 = QueryFactory.create(q1.getQueryString());
@@ -27,7 +27,7 @@ public class TestCountNbPredicates{
                 ArrayList<Node> qPredicates = getPredicates(query1);
                 for (Node nlog1 : qPredicates) {  
                     if ((nlog1 != null) && (!nlog1.toString().substring(0, 1).equals("?"))) {
-                        log1Predicates.add(nlog1);
+                        log1Predicates.add(nlog1.toString());
                     }
                 }
             }
@@ -39,13 +39,15 @@ public class TestCountNbPredicates{
                 ArrayList<Node> qPredicates = getPredicates(query2);
                 for (Node nlog1 : qPredicates) {  
                     if ((nlog1 != null) && (!nlog1.toString().substring(0, 1).equals("?"))) {
-                        log2Predicates.add(nlog1);
+                        log2Predicates.add(nlog1.toString());
                     }
                 }
             }
         }
         System.out.println("File 1 got " + log1Predicates.size() + " predicates");
+//         System.out.println("File 1 :" + log1Predicates + "\nEnd of File1");
         System.out.println("File 2 got " + log2Predicates.size() + " predicates");
+//         System.out.println("File 2 :" + log2Predicates + "\nEnd of File2");
     }
     //From PFSQGen.PrunningLogsF
     public static ArrayList<Node> getPredicates(Query q) {
