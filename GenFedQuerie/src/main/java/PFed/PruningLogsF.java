@@ -423,7 +423,7 @@ private Set<Node> logsPredicates = new HashSet<Node>();
                                 if(result == 1 && so.equals("path")){
                                     log1PredicatesPrun.add(nlog1);
                                     log2PredicatesPrun.add(nlog2);
-                                }else if(result == 2 && so.equals("path")){
+                                }else if(result == 2 && so.equals("star")){
                                     log1PredicatesPrun.add(nlog1);
                                     log2PredicatesPrun.add(nlog2);
                                 }else if(result == 3){
@@ -474,6 +474,8 @@ private Set<Node> logsPredicates = new HashSet<Node>();
 
 
     public ArrayList<SparqlQueryParser> pruningLog1Predicates(String so) {
+    
+        System.out.println("****** Preds File 1 : " + log1PredicatesPrun.size());
         queries1prunPath = new ArrayList<SparqlQueryParser>();
         for (SparqlQueryParser q1 : queries1.getQueries()) {
             Query query1 = QueryFactory.create(q1.getQueryString());
@@ -487,6 +489,7 @@ private Set<Node> logsPredicates = new HashSet<Node>();
     }
 
     public ArrayList<SparqlQueryParser> pruningLog2Predicates(String so) {
+            System.out.println("****** Preds File 2 : " + log2PredicatesPrun.size());
             queries2prunPath = new ArrayList<SparqlQueryParser>();
             for (SparqlQueryParser q2 : queries2.getQueries()) {
                 Query query2 = QueryFactory.create(q2.getQueryString());
@@ -497,6 +500,13 @@ private Set<Node> logsPredicates = new HashSet<Node>();
             }
             System.out.println("****** Querie File 2 : " + queries2.getQueries().size() + "   /    " + queries2prunPath.size());
             return queries2prunPath;
+    }
+    
+    public void addPredPrunLog1(Node nlog1){
+        log1PredicatesPrun.add(nlog1);
+    }
+    public void addPredPrunLog2(Node nlog2){
+        log2PredicatesPrun.add(nlog2);
     }
 }
 
