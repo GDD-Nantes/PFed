@@ -418,60 +418,23 @@ private Set<Node> logsPredicates = new HashSet<Node>();
         for (Node nlog1 : log1Predicates) {  
             if ((nlog1 != null) && (!nlog1.toString().substring(0, 1).equals("?"))) {
                 for (Node nlog2 : log2Predicates) {
-                            if ((nlog2 != null) && (!nlog2.toString().substring(0, 1).equals("?"))) {
-                                result = matcher.testExistingMatch(nlog1.toString(), nlog2.toString());
-                                if(result == 1 && so.equals("path")){
-                                    log1PredicatesPrun.add(nlog1);
-                                    log2PredicatesPrun.add(nlog2);
-                                }else if(result == 2 && so.equals("star")){
-                                    log1PredicatesPrun.add(nlog1);
-                                    log2PredicatesPrun.add(nlog2);
-                                }else if(result == 3){
-                                    log1PredicatesPrun.add(nlog1);
-                                    log2PredicatesPrun.add(nlog2);
-                                }
-                            }
+                    if ((nlog2 != null) && (!nlog2.toString().substring(0, 1).equals("?"))) {
+                        result = matcher.testExistingMatch(nlog1.toString(), nlog2.toString());
+                        if(result == 1 && so.equals("star")){
+                            log1PredicatesPrun.add(nlog1);
+                            log2PredicatesPrun.add(nlog2);
+                        }else if(result == 2 && so.equals("path")){
+                            log1PredicatesPrun.add(nlog1);
+                            log2PredicatesPrun.add(nlog2);
+                        }else if(result == 3){
+                            log1PredicatesPrun.add(nlog1);
+                            log2PredicatesPrun.add(nlog2);
                         }
-//                 if (so.equals("path")) {
-// //                     List<String> ObjAuthorityP1 = matcher.getObjAuthority(nlog1.toString(), sumFiles.get(0));
-//                     if ((ObjAuthorityP1 != null)) {//System.out.println(log2Predicates.size());                                                           
-//                         for (Node nlog2 : log2Predicates) {
-//                             if ((nlog2 != null) && (!nlog2.toString().substring(0, 1).equals("?"))) {
-// //                                 List<String> SubjAuthorityP2 = matcher.getSubjAuthority(nlog2.toString(), sumFiles.get(1));
-//                                 if (SubjAuthorityP2 != null) {
-// //                                     Set<String> intersection1 = new HashSet<String>(ObjAuthorityP1); // use the copy constructor                          
-// //                                     intersection1.retainAll(SubjAuthorityP2);
-//                                     if (intersection1.size() > 0) {//System.out.println(nlog1+"    .    "+nlog2);                                         
-//                                         log1PredicatesPrun.add(nlog1);
-//                                         log2PredicatesPrun.add(nlog2);
-//                                     }
-//                                 }
-//                             }
-//                         }
-//                     }
-//                 }else if (so.equals("star")) {
-//                     List<String> SubjAuthorityP1 = matcher.getSubjAuthority(nlog1.toString(), sumFiles.get(0));
-//                     if ((SubjAuthorityP1 != null)) {
-//                         for (Node nlog2 : log2Predicates) {
-//                             if ((nlog2 != null) && (!nlog2.toString().substring(0, 1).equals("?"))) {
-//                                 List<String> SubjAuthorityP2 = matcher.getSubjAuthority(nlog2.toString(), sumFiles.get(1));
-//                                 if (SubjAuthorityP2 != null) {
-//                                     Set<String> intersection1 = new HashSet<String>(SubjAuthorityP1); // use the copy constructor                         
-//                                     intersection1.retainAll(SubjAuthorityP2);
-//                                     if (intersection1.size() > 0) {
-//                                         log1PredicatesPrun.add(nlog1);
-//                                         log2PredicatesPrun.add(nlog2);
-// 
-//                                     }
-//                                 }
-//                             }
-//                         }
-//                     }
-//                 }
+                    }
+                }
             }
         }
     }
-
 
     public ArrayList<SparqlQueryParser> pruningLog1Predicates(String so) {
     
@@ -501,7 +464,12 @@ private Set<Node> logsPredicates = new HashSet<Node>();
             System.out.println("****** Querie File 2 : " + queries2.getQueries().size() + "   /    " + queries2prunPath.size());
             return queries2prunPath;
     }
-    
+    public Set<Node> getLog1PredicatesPrun(){
+        return log1PredicatesPrun;
+    }
+    public Set<Node> getLog2PredicatesPrun(){
+        return log2PredicatesPrun;
+    }
     public void addPredPrunLog1(Node nlog1){
         log1PredicatesPrun.add(nlog1);
     }

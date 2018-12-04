@@ -36,6 +36,8 @@ public class MatchingPredicates {
     public class MatchCapabilities {
 
         private String predicate;
+        //If a capability has a subject in joignableWith, then it exist a Star Sbj->Sbj
+        //If a capability has a object in joignableWith, then it exist a Path Obj->Sbj
         private List<Capability> joinableWith;
 
         public MatchCapabilities(String predicate) {
@@ -136,7 +138,8 @@ public class MatchingPredicates {
 
         //testing objects compatibilities using loop on ObjAuthority		
         for (String testAuth : testMatch.getObjAuthority()) {
-            if(capability.getObjAuthority().contains(testAuth)){
+            //For PAth need Obj->Sbj, not Obj->Obj
+            if(capability.getSbjAuthority().contains(testAuth)){
                 resultMatch.addObjAuthority(testAuth);
             }
         }
@@ -200,12 +203,15 @@ public class MatchingPredicates {
                     if(matchingTable.get(i).joinableWith.get(k).getPredicate().equals(predicate2)){
                      
                         if ((matchingTable.get(i).joinableWith.get(k).getSbjAuthority().size() != 0) && (matchingTable.get(i).joinableWith.get(k).getObjAuthority().size() == 0)) {
+                            //There is a Star between predicate1 and predicate2
                             return 1;
                         }
                         else if ((matchingTable.get(i).joinableWith.get(k).getSbjAuthority().size() == 0) && (matchingTable.get(i).joinableWith.get(k).getObjAuthority().size() != 0)) {
+                            //There is a Path between predicate1 and predicate2
                             return 2;
                         }
                         else if ((matchingTable.get(i).joinableWith.get(k).getSbjAuthority().size() != 0) && (matchingTable.get(i).joinableWith.get(k).getObjAuthority().size() != 0)) {
+                             //There is both path and star between predicate1 and predicate2
                             return 3;  
                         }
                     }
