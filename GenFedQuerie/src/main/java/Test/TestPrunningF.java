@@ -56,11 +56,11 @@ public class TestPrunningF {
         System.out.println();
         System.out.println("----------------------------------------------");
         
-//         PLpath.pruningPredicatesLogs(sumFileList, "path", log1PrunFile, log2PrunFile);                                                            
+        PLpath.pruningPredicatesLogs(sumFileList, "path", log1PrunFile, log2PrunFile);                                                            
 //         PLpath.pruningLog1Predicates(log1PrunFile);                                                                                                     
 //         PLpath.pruningLog2Predicates(log2PrunFile);
         
-//         PLpath.genFedMinimalPathService(sparqlEndpoint1, sparqlEndpoint2, genFedMinimalPathFileDB);
+        PLpath.genFedMinimalPathService(sparqlEndpoint1, sparqlEndpoint2, genFedMinimalPathFileDB);
         System.out.println();
         System.out.println("----------------------------------------------");
         System.out.println();
@@ -68,11 +68,11 @@ public class TestPrunningF {
         System.out.println();
         System.out.println("----------------------------------------------");
         
-        PLpath.pruningPredicatesLogs(sumFileList, "star", log1PrunFile, log2PrunFile);                                                            
+//         PLpath.pruningPredicatesLogs(sumFileList, "star", log1PrunFile, log2PrunFile);                                                            
 /*        PLpath.pruningLog1Predicates(log1PrunFile);                                                                                                     
         PLpath.pruningLog2Predicates(log2PrunFile);  */  
         
-        PLpath.genFedMinimalStarService(sparqlEndpoint1, sparqlEndpoint2, genFedMinimalStarFile);
+//         PLpath.genFedMinimalStarService(sparqlEndpoint1, sparqlEndpoint2, genFedMinimalStarFile);
         
         System.out.println();                                                                                                     
         System.out.println("----------------------------------------------");

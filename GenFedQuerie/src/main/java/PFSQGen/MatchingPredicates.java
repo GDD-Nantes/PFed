@@ -34,7 +34,7 @@ public class MatchingPredicates {
 //     }
 
     public class MatchCapabilities {
-
+        //Transform it to Map String -> list<Capa>
         private String predicate;
         //If a capability has a subject in joignableWith, then it exist a Star Sbj->Sbj
         //If a capability has a object in joignableWith, then it exist a Path Obj->Sbj
@@ -143,7 +143,6 @@ public class MatchingPredicates {
                 resultMatch.addObjAuthority(testAuth);
             }
         }
-
         return resultMatch;
 
     }

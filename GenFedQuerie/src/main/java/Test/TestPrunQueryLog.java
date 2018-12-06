@@ -15,6 +15,7 @@ public class TestPrunQueryLog{
     public static void main(String[] args) throws Exception {
         String queriesFilePath1 = "queries/SWDF-CleanQueriesDecode.txt";
         String queriesFilePath2 = "queries/DBpedia3.5.1-CleanQueriesDecode.txt";
+//         String querieSplodge = "predList/StarSplodgeSageLoc.txt";
 
         ArrayList<String> sumFileList = new ArrayList<String>();
         String Sum1 = "summaries/SWDF-Sum.n3";                                                              
@@ -25,6 +26,7 @@ public class TestPrunQueryLog{
         String predicate1FilePath = "predSWDF.txt";
         String predicate2FilePath = "predDBPD.txt";
         PruningLogsF PLpath = new PruningLogsF(queriesFilePath1, queriesFilePath2, sumFileList, "nonCypte");
+//         PruningLogsF PLpath = new PruningLogsF(querieSplodge, querieSplodge, sumFileList, "nonCypte");
         
         //Load preds
         addAllToLog1(predicate1FilePath, PLpath);

@@ -390,7 +390,8 @@ private Set<Node> logsPredicates = new HashSet<Node>();
         BufferedWriter bwPre1P = new BufferedWriter(fwPre1P);
         FileWriter fwPre2P = new FileWriter(log2PredicatesPrunFile);
         BufferedWriter bwPre2P = new BufferedWriter(fwPre2P);
-
+        
+        //Change them to Set of couplePred so we don't excute predicate with mismatch auth
         log1Predicates = new HashSet<Node>();
         log2Predicates = new HashSet<Node>();
         log1PredicatesPrun = new HashSet<Node>();

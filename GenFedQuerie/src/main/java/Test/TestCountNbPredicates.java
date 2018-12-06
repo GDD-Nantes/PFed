@@ -45,9 +45,9 @@ public class TestCountNbPredicates{
             }
         }
         System.out.println("File 1 got " + log1Predicates.size() + " predicates");
-//         System.out.println("File 1 :" + log1Predicates + "\nEnd of File1");
+         System.out.println("File 1 :" + log1Predicates + "\nEnd of File1");
         System.out.println("File 2 got " + log2Predicates.size() + " predicates");
-//         System.out.println("File 2 :" + log2Predicates + "\nEnd of File2");
+         System.out.println("File 2 :" + log2Predicates + "\nEnd of File2");
     }
     //From PFSQGen.PrunningLogsF
     public static ArrayList<Node> getPredicates(Query q) {

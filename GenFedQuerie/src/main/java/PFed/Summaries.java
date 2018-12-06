@@ -46,14 +46,13 @@ public class Summaries {
                                     break;//?
                                 } else {
                                     //parsing predicate
-                                    if (sCurrentLine.indexOf("predicate") >= 0) {
+                                    if (sCurrentLine.indexOf("ds:predicate") >= 0) {
                                         charParserPosition = sCurrentLine.indexOf("<");
                                         lastParserPosition = sCurrentLine.indexOf(">");
                                         tempCap.setPredicate(sCurrentLine.substring(charParserPosition + 1, lastParserPosition));
                                     }
-
                                     //parsing sbjAuthority
-                                    searchPatternPos = sCurrentLine.indexOf("sbjAuthority");
+                                    searchPatternPos = sCurrentLine.indexOf("ds:sbjAuthority");
                                     if (searchPatternPos >= 0) {
                                         //number of Subject Authority
                                         for (int i = searchPatternPos; i < sCurrentLine.length(); i++) {
@@ -64,9 +63,8 @@ public class Summaries {
                                             }
                                         }
                                     }
-
                                     //parsing objAuthority																		
-                                    searchPatternPos = sCurrentLine.indexOf("objAuthority");
+                                    searchPatternPos = sCurrentLine.indexOf("ds:objAuthority");
                                     if (searchPatternPos >= 0) {
                                         //number of Subject Authority
                                         for (int i = searchPatternPos; i < sCurrentLine.length(); i++) {
@@ -111,7 +109,6 @@ public class Summaries {
             }
 
         }
-
     }
 
     public Set<Capability> getCapabilities() {
