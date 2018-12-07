@@ -77,9 +77,10 @@ public class TestCleanQuerySet {
                 }
                 System.out.println(e);
             }
-            if(total % 10 == 0){
-                System.out.println("Processed: " + total + ", saved:" + saved);
-            }
+//             if(total % 10 == 0){
+                int sumq = total + startFrom;
+                System.out.println("Processed: " + total + ", saved:" + saved + ", Query Number:" + sumq);
+//             }
         }
         System.out.println("Errored query :");
         System.out.println(error);

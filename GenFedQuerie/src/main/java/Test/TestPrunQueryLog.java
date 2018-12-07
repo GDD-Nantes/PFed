@@ -13,8 +13,8 @@ import org.apache.jena.graph.Node;
 
 public class TestPrunQueryLog{
     public static void main(String[] args) throws Exception {
-        String queriesFilePath1 = "queries/SWDF-CleanQueriesDecode.txt";
-        String queriesFilePath2 = "queries/DBpedia3.5.1-CleanQueriesDecode.txt";
+        String queriesFilePath1 = "logs/SWDF-CleanQueriesDecode.txt";
+        String queriesFilePath2 = "logs/DBpedia3.5.1-CleanQueriesDecode.txt";
 //         String querieSplodge = "predList/StarSplodgeSageLoc.txt";
 
         ArrayList<String> sumFileList = new ArrayList<String>();

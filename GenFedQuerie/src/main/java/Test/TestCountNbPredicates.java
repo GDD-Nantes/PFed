@@ -16,8 +16,8 @@ import java.util.Iterator;
 public class TestCountNbPredicates{
     public static void main(String[] args) throws Exception {
         
-        Queries queries1 = new Queries("queries/SWDF-CleanQueriesDecode.txt", "nonCrypte");
-        Queries queries2 = new Queries("queries/DBpedia3.5.1-CleanQueriesDecode.txt", "nonCrypte");
+        Queries queries1 = new Queries("logs/SWDF-CleanQueriesDecode.txt", "nonCrypte");
+        Queries queries2 = new Queries("logs/DBpedia3.5.1-CleanQueriesDecode.txt", "nonCrypte");
         HashSet<String> log1Predicates = new HashSet<String>();
         HashSet<String> log2Predicates = new HashSet<String>();
         System.out.println("reading log1 ...");

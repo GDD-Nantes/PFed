@@ -9,8 +9,8 @@ public class TestJoinablePred {
 
     public static void main(String[] args) throws Exception {
     
-        String queriesFilePath1 = "queries/SWDF-CleanQueriesDecode.txt";
-        String queriesFilePath2 = "queries/DBpedia3.5.1-CleanQueriesDecode.txt";
+        String queriesFilePath1 = "logs/SWDF-CleanQueriesDecode.txt";
+        String queriesFilePath2 = "logs/DBpedia3.5.1-CleanQueriesDecode.txt";
         String Sum1 = "summaries/SWDF-Sum.n3";                                                              
         String Sum2 = "summaries/DBPD-Sum.n3";
         

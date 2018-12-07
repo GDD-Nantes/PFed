@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class TestPrunningF {
 
     public static void main(String[] args) throws Exception {
-        String queriesFilePath1 = "queries/SWDF-CleanQueriesDecode.txt";
-        String queriesFilePath2 = "queries/DBpedia3.5.1-CleanQueriesDecode.txt";
+        String queriesFilePath1 = "logs/SWDF-CleanQueriesDecode.txt";
+        String queriesFilePath2 = "logs/DBpedia3.5.1-CleanQueriesDecode.txt";
 
         ArrayList<String> sumFileList = new ArrayList<String>();
         String Sum1 = "summaries/SWDF-Sum.n3";                                                              
