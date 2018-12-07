@@ -22,7 +22,8 @@ import java.util.concurrent.TimeUnit;
 import org.apache.jena.query.QueryException;
 import org.apache.jena.query.QueryParseException;
 import PFed.ExecutionStrategy;
-import PFed.SageExecution;
+// import PFed.SageExecution;
+import PFed.FusekiExecution;
 
 public class TestCleanQuerySet {
     public static void main(String[] args) {
@@ -49,14 +50,14 @@ public class TestCleanQuerySet {
         Queries queries = new Queries(queriesPath,"nonCrypt");
         System.out.println("Starting queries execution");
         int error = 0;
-        ExecutionStrategy executor = new SageExecution();
+         ExecutionStrategy executor = new FusekiExecution();
         for(int i = startFrom; i<queries.getQueries().size(); ++i){
             SparqlQueryParser q = queries.getQueries().get(i);
             try {
                 ++total;
                 try{
                     if (executor.hasResult(q.toString(), endpoint)) {
-                        byte res[] = new String(startQ + q).getBytes();
+                        byte res[] = new String(startQ + q + System.getProperty("line.separator")).getBytes();
                         try{
                             Files.write(output, res,StandardOpenOption.CREATE, StandardOpenOption.APPEND);
                         }catch (IOException e){

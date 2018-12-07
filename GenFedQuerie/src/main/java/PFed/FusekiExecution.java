@@ -40,7 +40,7 @@ public class FusekiExecution implements ExecutionStrategy {
             + "\tSERVICE <" + servN2 + "> { \n"
             + "\t\t?v0 <" + n2 + "> ?v2 . \n"
             + "\t}\n"
-//             + "\tFILTER(isURI(?v1))\n"
+            + "\tFILTER(isURI(?v1))\n"
             + "}";
     }
 }
