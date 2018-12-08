@@ -1,6 +1,6 @@
 package PFSQGen;
 
-import PFed.Capability;
+import PFSQGen.Capability;
 import java.util.ArrayList;
 import java.util.List;
 

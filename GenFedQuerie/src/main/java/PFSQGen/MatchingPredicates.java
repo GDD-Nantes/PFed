@@ -4,10 +4,10 @@ package PFSQGen;
 import java.util.ArrayList;
 import java.util.List;
 
-import PFed.Capability;
+import PFSQGen.Capability;
 import PFSQGen.MatchingCapabilities;
 import PFSQGen.SparqlQueryParser;
-import PFed.Summaries;
+import PFSQGen.Summaries;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
