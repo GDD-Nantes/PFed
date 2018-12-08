@@ -1,6 +1,6 @@
-package PFed;
+package PFSQGen;
 
-import PFed.ExecutionStrategy;
+import PFSQGen.ExecutionStrategy;
 
 import org.gdd.sage.engine.SageExecutionContext;
 import org.gdd.sage.core.factory.ISageQueryFactory;

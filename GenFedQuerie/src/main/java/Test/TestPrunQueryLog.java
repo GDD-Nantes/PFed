@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import PFSQGen.SparqlQueryParser;
-import PFed.PruningLogsF;
+import PFSQGen.PruningLogsF;
 import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.graph.Node;
 

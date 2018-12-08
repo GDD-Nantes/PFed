@@ -1,6 +1,6 @@
-package PFed;
+package PFSQGen;
 
-import PFed.ExecutionStrategy;
+import PFSQGen.ExecutionStrategy;
 
 import org.apache.jena.graph.Node;
 import org.apache.jena.query.Query;

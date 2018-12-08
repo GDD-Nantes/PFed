@@ -1,4 +1,4 @@
-package PFed;
+package PFSQGen;
 
 import org.apache.jena.query.QueryException;
 import org.apache.jena.graph.Node;

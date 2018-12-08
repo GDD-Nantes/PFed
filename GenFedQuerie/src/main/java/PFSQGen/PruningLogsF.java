@@ -1,4 +1,4 @@
-package PFed;
+package PFSQGen;
 
 import org.openrdf.query.QueryLanguage;
 import org.openrdf.query.TupleQuery;
@@ -34,12 +34,6 @@ import org.apache.jena.sparql.core.TriplePath;
 import org.apache.jena.sparql.syntax.ElementPathBlock;
 import org.apache.jena.sparql.syntax.ElementVisitorBase;
 import org.apache.jena.sparql.syntax.ElementWalker;
-// import org.gdd.sage.cli.QueryExecutor;
-// import org.gdd.sage.cli.SelectQueryExecutor;
-// import org.gdd.sage.engine.SageExecutionContext;
-// import org.gdd.sage.federated.factory.FederatedQueryFactory;
-// import org.gdd.sage.federated.factory.ServiceFederatedQueryFactory;
-// import org.gdd.sage.http.ExecutionStats;
 import org.openrdf.query.MalformedQueryException;
 import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.repository.sail.SailRepository;

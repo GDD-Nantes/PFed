@@ -21,9 +21,9 @@ import java.nio.file.StandardOpenOption;
 import java.util.concurrent.TimeUnit;
 import org.apache.jena.query.QueryException;
 import org.apache.jena.query.QueryParseException;
-import PFed.ExecutionStrategy;
-// import PFed.SageExecution;
-import PFed.FusekiExecution;
+import PFSQGen.ExecutionStrategy;
+// import PFSQGen.SageExecution;
+import PFSQGen.FusekiExecution;
 
 public class TestCleanQuerySet {
     public static void main(String[] args) {

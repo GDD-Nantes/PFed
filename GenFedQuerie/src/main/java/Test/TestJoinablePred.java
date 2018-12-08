@@ -1,6 +1,6 @@
 package Test;
 
-import PFed.PruningLogsF;
+import PFSQGen.PruningLogsF;
 import java.util.Set;
 import java.util.ArrayList;
 import org.apache.jena.graph.Node;

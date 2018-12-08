@@ -1,7 +1,7 @@
 package Test;
 
-import PFed.PruningLogsF;
-import PFed.SageExecution;
+import PFSQGen.PruningLogsF;
+import PFSQGen.SageExecution;
 import com.fluidops.fedx.Config;
 import com.fluidops.fedx.FederationManager;
 import java.util.ArrayList;
