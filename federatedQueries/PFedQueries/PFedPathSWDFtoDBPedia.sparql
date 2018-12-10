@@ -1,0 +1,248 @@
+#-------------------------------------------------------
+query: PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX dbpedia2: <http://dbpedia.org/property/> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+PREFIX owl: <http://www.w3.org/2002/07/owl#> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>  
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 
+SELECT * WHERE { 
+{ ?org_log1 foaf:name ?name_log1 } 
+UNION { ?org_log1 rdfs:label ?name_log1 } 
+OPTIONAL { ?org_log1 foaf:page ?page_log1 } 
+OPTIONAL { ?org_log1 owl:sameAs ?sameAs_log1 } 
+OPTIONAL { ?org_log1 rdfs:seeAlso ?seeAlso_log1 } 
+OPTIONAL { ?org_log1 foaf:homepage ?homepage_log1 } 
+OPTIONAL { ?org_log1 foaf:based_near ?location_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?location_log1 skos:subject <http://dbpedia.org/resource/Category:States_of_the_United_States> . 
+    ?location_log1 dbpedia2:capital ?capital_log2  } . 
+?location_log1 geo:lat ?latitude_log1 . 
+?location_log1 geo:long ?longitude_log1 } } 
+#-------------------------------------------------------
+query: PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX dbpedia2: <http://dbpedia.org/property/> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+PREFIX owl: <http://www.w3.org/2002/07/owl#> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>  
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 
+SELECT * WHERE { 
+{ ?org_log1 foaf:name ?name_log1 } 
+UNION { ?org_log1 rdfs:label ?name_log1 } 
+OPTIONAL { ?org_log1 foaf:page ?page_log1 } 
+OPTIONAL { ?org_log1 owl:sameAs ?sameAs_log1 } 
+OPTIONAL { ?org_log1 rdfs:seeAlso ?seeAlso_log1 } 
+OPTIONAL { ?org_log1 foaf:homepage ?homepage_log1 } 
+OPTIONAL { ?org_log1 foaf:based_near ?location_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?location_log1 skos:subject <http://dbpedia.org/resource/Category:German_state_capitals> . 
+    ?location_log1 dbpedia2:capital ?capital_log2  } . 
+?location_log1 geo:lat ?latitude_log1 . 
+?location_log1 geo:long ?longitude_log1 } } 
+#-------------------------------------------------------
+query: PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX owl: <http://www.w3.org/2002/07/owl#> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+SELECT * WHERE { 
+{ ?org_log1 foaf:name ?name_log1 } 
+UNION { ?org_log1 rdfs:label ?name_log1 } 
+OPTIONAL { ?org_log1 foaf:page ?page_log1 } 
+OPTIONAL { ?org_log1 owl:sameAs ?sameAs_log1 } 
+OPTIONAL { ?org_log1 rdfs:seeAlso ?seeAlso_log1 } 
+OPTIONAL { ?org_log1 foaf:homepage ?homepage_log1 } 
+OPTIONAL { ?org_log1 foaf:based_near ?location_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?location_log1 <http://www.w3.org/2000/01/rdf-schema#label> "United Kingdom"@en . 
+    ?location_log1 <http://dbpedia.org/property/capital> ?capital_log2 . 
+    ?capital_log2 <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat_log2 . 
+    ?capital_log2 <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long_log2  } . 
+?location_log1 geo:lat ?latitude_log1 . 
+?location_log1 geo:long ?longitude_log1 } } 
+#-------------------------------------------------------
+query: PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+SELECT * WHERE { 
+?obj_log1 rdf:type foaf:Organization . 
+?obj_log1 foaf:based_near ?targetObj_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?targetObj_log1 <http://www.w3.org/2000/01/rdf-schema#label> "United Kingdom"@en . 
+    ?targetObj_log1 <http://dbpedia.org/property/capital> ?capital_log2 . 
+    ?capital_log2 <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat_log2 . 
+    ?capital_log2 <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long_log2  } . 
+?targetObj_log1 rdf:type ?targetType_log1 } 
+#-------------------------------------------------------
+query: PREFIX dbpedia2: <http://dbpedia.org/property/> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>  
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 
+SELECT * WHERE { 
+?org_uri_log1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> foaf:Organization 
+{ ?org_uri_log1 skos:prefLabel ?org_name_log1 } 
+UNION { ?org_uri_log1 foaf:name ?org_name_log1 
+OPTIONAL { ?org_uri_log1 skos:prefLabel ?prefLabel_log1 } 
+FILTER ( ! bound(?prefLabel) ) } 
+OPTIONAL { ?org_uri_log1 foaf:based_near ?location_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?location_log1 skos:subject <http://dbpedia.org/resource/Category:States_of_the_United_States> . 
+    ?location_log1 dbpedia2:capital ?capital_log2  } . 
+?location_log1 geo:lat ?latitude_log1 . 
+?location_log1 geo:long ?longitude_log1 } } 
+#-------------------------------------------------------
+query: PREFIX dbpedia2: <http://dbpedia.org/property/> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>  
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 
+SELECT * WHERE { 
+?org_uri_log1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> foaf:Organization 
+{ ?org_uri_log1 skos:prefLabel ?org_name_log1 } 
+UNION { ?org_uri_log1 foaf:name ?org_name_log1 
+OPTIONAL { ?org_uri_log1 skos:prefLabel ?prefLabel_log1 } 
+FILTER ( ! bound(?prefLabel) ) } 
+OPTIONAL { ?org_uri_log1 foaf:based_near ?location_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?location_log1 skos:subject <http://dbpedia.org/resource/Category:German_state_capitals> . 
+    ?location_log1 dbpedia2:capital ?capital_log2  } . 
+?location_log1 geo:lat ?latitude_log1 . 
+?location_log1 geo:long ?longitude_log1 } } 
+#-------------------------------------------------------
+query: PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+SELECT * WHERE { 
+?org_uri_log1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> foaf:Organization 
+{ ?org_uri_log1 skos:prefLabel ?org_name_log1 } 
+UNION { ?org_uri_log1 foaf:name ?org_name_log1 
+OPTIONAL { ?org_uri_log1 skos:prefLabel ?prefLabel_log1 } 
+FILTER ( ! bound(?prefLabel) ) } 
+OPTIONAL { ?org_uri_log1 foaf:based_near ?location_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?location_log1 <http://www.w3.org/2000/01/rdf-schema#label> "United Kingdom"@en . 
+    ?location_log1 <http://dbpedia.org/property/capital> ?capital_log2 . 
+    ?capital_log2 <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat_log2 . 
+    ?capital_log2 <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long_log2  } . 
+?location_log1 geo:lat ?latitude_log1 . 
+?location_log1 geo:long ?longitude_log1 } } 
+#-------------------------------------------------------
+query: PREFIX dbpedia2: <http://dbpedia.org/property/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>  
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 
+SELECT * WHERE { 
+?organization_log1 rdf:type foaf:Organization . 
+?organization_log1 foaf:based_near ?location_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?location_log1 skos:subject <http://dbpedia.org/resource/Category:States_of_the_United_States> . 
+    ?location_log1 dbpedia2:capital ?capital_log2  } . 
+?location_log1 geo:lat ?latitude_log1 . 
+?location_log1 geo:long ?longitude_log1 } 
+#-------------------------------------------------------
+query: PREFIX dbpedia2: <http://dbpedia.org/property/> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>  
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 
+SELECT * WHERE { 
+?organization_log1 rdf:type foaf:Organization . 
+?organization_log1 foaf:based_near ?location_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?location_log1 skos:subject <http://dbpedia.org/resource/Category:German_state_capitals> . 
+    ?location_log1 dbpedia2:capital ?capital_log2  } . 
+?location_log1 geo:lat ?latitude_log1 . 
+?location_log1 geo:long ?longitude_log1 } 
+#-------------------------------------------------------
+query: PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+SELECT * WHERE { 
+?organization_log1 rdf:type foaf:Organization . 
+?organization_log1 foaf:based_near ?location_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?location_log1 <http://www.w3.org/2000/01/rdf-schema#label> "United Kingdom"@en . 
+    ?location_log1 <http://dbpedia.org/property/capital> ?capital_log2 . 
+    ?capital_log2 <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat_log2 . 
+    ?capital_log2 <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long_log2  } . 
+?location_log1 geo:lat ?latitude_log1 . 
+?location_log1 geo:long ?longitude_log1 } 
+#-------------------------------------------------------
+query: REFIX dbpedia2: <http://dbpedia.org/property/> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>  
+SELECT * WHERE { 
+?instance_log1 <http://xmlns.com/foaf/0.1/based_near> ?a_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?a_log1 skos:subject <http://dbpedia.org/resource/Category:States_of_the_United_States> . 
+    ?a_log1 dbpedia2:capital ?capital_log2  } . 
+?instance_log1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?dClass_log1 } 
+#-------------------------------------------------------
+query: PREFIX dbpedia2: <http://dbpedia.org/property/> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>  
+SELECT * WHERE { 
+?instance_log1 <http://xmlns.com/foaf/0.1/based_near> ?a_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?a_log1 skos:subject <http://dbpedia.org/resource/Category:German_state_capitals> . 
+    ?a_log1 dbpedia2:capital ?capital_log2  } . 
+?instance_log1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?dClass_log1 } 
+#-------------------------------------------------------
+query: SELECT * WHERE { 
+?instance_log1 <http://xmlns.com/foaf/0.1/based_near> ?a_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?a_log1 <http://www.w3.org/2000/01/rdf-schema#label> "United Kingdom"@en . 
+    ?a_log1 <http://dbpedia.org/property/capital> ?capital_log2 . 
+    ?capital_log2 <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat_log2 . 
+    ?capital_log2 <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long_log2  } . 
+?instance_log1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?dClass_log1 } 
+#-------------------------------------------------------
+query: PREFIX dbpedia2: <http://dbpedia.org/property/> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>  
+SELECT * WHERE { 
+?a_log1 <http://xmlns.com/foaf/0.1/based_near> ?instance_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?instance_log1 skos:subject <http://dbpedia.org/resource/Category:States_of_the_United_States> . 
+    ?instance_log1 dbpedia2:capital ?capital_log2  } . 
+?instance_log1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?rClass_log1 } 
+#-------------------------------------------------------
+query: PREFIX dbpedia2: <http://dbpedia.org/property/> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>  
+SELECT * WHERE { 
+?a_log1 <http://xmlns.com/foaf/0.1/based_near> ?instance_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?instance_log1 skos:subject <http://dbpedia.org/resource/Category:German_state_capitals> . 
+    ?instance_log1 dbpedia2:capital ?capital_log2  } . 
+?instance_log1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?rClass_log1 } 
+#-------------------------------------------------------
+query: SELECT * WHERE { 
+?a_log1 <http://xmlns.com/foaf/0.1/based_near> ?instance_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?instance_log1 <http://www.w3.org/2000/01/rdf-schema#label> "United Kingdom"@en . 
+    ?instance_log1 <http://dbpedia.org/property/capital> ?capital_log2 . 
+    ?capital_log2 <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat_log2 . 
+    ?capital_log2 <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long_log2  } . 
+?instance_log1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?rClass_log1 } 
+#-------------------------------------------------------
+query: PREFIX dbpedia2: <http://dbpedia.org/property/> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>  
+SELECT * WHERE { 
+?x_log1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Organization> . 
+?x_log1 <http://xmlns.com/foaf/0.1/based_near> ?val_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?val_log1 skos:subject <http://dbpedia.org/resource/Category:States_of_the_United_States> . 
+    ?val_log1 dbpedia2:capital ?capital_log2  } } 
+#-------------------------------------------------------
+query: PREFIX dbpedia2: <http://dbpedia.org/property/> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>  
+SELECT * WHERE { 
+?x_log1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Organization> . 
+?x_log1 <http://xmlns.com/foaf/0.1/based_near> ?val_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?val_log1 skos:subject <http://dbpedia.org/resource/Category:German_state_capitals> . 
+    ?val_log1 dbpedia2:capital ?capital_log2  } } 
+#-------------------------------------------------------
+query: SELECT * WHERE { 
+?x_log1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Organization> . 
+?x_log1 <http://xmlns.com/foaf/0.1/based_near> ?val_log1 . 
+    SERVICE <http://172.16.8.50:6011/dbpedia/query> { 
+    ?val_log1 <http://www.w3.org/2000/01/rdf-schema#label> "United Kingdom"@en . 
+    ?val_log1 <http://dbpedia.org/property/capital> ?capital_log2 . 
+    ?capital_log2 <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat_log2 . 
+    ?capital_log2 <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long_log2  } } 
+#-------------------------------------------------------
