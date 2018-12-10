@@ -1,0 +1,386 @@
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/type> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/reference> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/ontology/vicePresident> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/ontology/sport> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x . 
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/almaMater> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/location> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/image> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/residence> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/ontology/foundationPlace> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/ontology/country> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/budget> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/ontology/citizenship> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/ontology/owner> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/founder> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x . 
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/locationCity> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/motto> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x . 
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/city> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/field> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/headquarters> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/filename> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/leaderName> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/title> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://xmlns.com/foaf/0.1/depiction> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://xmlns.com/foaf/0.1/name> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/ontology/thumbnail> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://www.w3.org/2000/01/rdf-schema#comment> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://www.w3.org/2000/01/rdf-schema#label> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://www.w3.org/2004/02/skos/core#subject> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://www.w3.org/2002/07/owl#sameAs> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://data.semanticweb.org/ns/swc/ontology#hasLocation> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/reference> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://data.semanticweb.org/ns/swc/ontology#hasLocation> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/ontology/elevation> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://data.semanticweb.org/ns/swc/ontology#hasLocation> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/longd> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://data.semanticweb.org/ns/swc/ontology#hasLocation> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/latd> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://data.semanticweb.org/ns/swc/ontology#hasLocation> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/timezone> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://data.semanticweb.org/ns/swc/ontology#hasLocation> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/leaderName> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://data.semanticweb.org/ns/swc/ontology#hasLocation> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/title> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://data.semanticweb.org/ns/swc/ontology#hasLocation> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://xmlns.com/foaf/0.1/depiction> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://data.semanticweb.org/ns/swc/ontology#hasLocation> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://xmlns.com/foaf/0.1/name> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://data.semanticweb.org/ns/swc/ontology#hasLocation> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/ontology/thumbnail> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://data.semanticweb.org/ns/swc/ontology#hasLocation> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://www.w3.org/2000/01/rdf-schema#comment> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://data.semanticweb.org/ns/swc/ontology#hasLocation> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://www.w3.org/2000/01/rdf-schema#label> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://data.semanticweb.org/ns/swc/ontology#hasLocation> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://www.w3.org/2004/02/skos/core#subject> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://data.semanticweb.org/ns/swc/ontology#hasLocation> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/type> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/reference> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/location> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/leader> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/image> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/position> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/ontology/elevation> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/capital> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/party> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/urbanPop> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/nationality> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/commonName> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/longd> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/first> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/ontology/language> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> { 
+?x <http://dbpedia.org/ontology/populationTotal> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/motto> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/currency> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/latd> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/museum> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/author> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/disambiguates> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/city> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/populationTotal> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/timezone> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/leaderName> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/property/title> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://xmlns.com/foaf/0.1/depiction> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://xmlns.com/foaf/0.1/name> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://dbpedia.org/ontology/thumbnail> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://www.w3.org/2000/01/rdf-schema#comment> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://www.w3.org/2000/01/rdf-schema#label> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://www.w3.org/2004/02/skos/core#subject> ?o . }  } 
+#-------------------------------------------------------
+query:  SELECT * WHERE { 
+?s <http://xmlns.com/foaf/0.1/based_near> ?x .  
+SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1> {  
+?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?o . }  } 
+#-------------------------------------------------------
