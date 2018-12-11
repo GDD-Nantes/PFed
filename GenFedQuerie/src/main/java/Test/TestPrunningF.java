@@ -1,6 +1,6 @@
 package Test;
 
-import PFSQGen.PruningLogsF;
+import PFSQGen.PruningLogs;
 import PFSQGen.SageExecution;
 import com.fluidops.fedx.Config;
 import com.fluidops.fedx.FederationManager;
@@ -45,7 +45,7 @@ public class TestPrunningF {
 //         String log1ClassSummary = "log1ClassSummary.txt";
 //         String log2ClassSummary = "log2ClassSummary.txt";
                                  
-        PruningLogsF PLpath = new PruningLogsF(queriesFilePath1, queriesFilePath2, sumFileList, "nonCypte");
+        PruningLogs PLpath = new PruningLogs(queriesFilePath1, queriesFilePath2, sumFileList, "nonCypte");
         PLpath.setExecutor(new SageExecution());
         
         //generate minimal fedQueries with result                                                                                                         
@@ -83,7 +83,7 @@ public class TestPrunningF {
 //         ArrayList<String> sumFileListRev = new ArrayList<String>();
 //         sumFileListRev.add(Sum2);
 //         sumFileListRev.add(Sum1);
-//         PruningLogsF PLpathRev = new PruningLogsF(queriesFilePath2, queriesFilePath1, sumFileListRev, "nonCypte");
+//         PruningLogs PLpathRev = new PruningLogs(queriesFilePath2, queriesFilePath1, sumFileListRev, "nonCypte");
 //         PLpathRev.setExecutor(new SageExecution());
 // //         
 //         PLpathRev.pruningPredicatesLogs(sumFileListRev, "path", log1PrunFileRev, log2PrunFileRev);

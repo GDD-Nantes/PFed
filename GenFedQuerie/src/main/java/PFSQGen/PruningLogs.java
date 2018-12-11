@@ -48,7 +48,7 @@ import PFSQGen.SparqlQueryParser;
  *                                                                                                                                                        
  * @author khiyari-s                                                                                                                                      
  */
-public class PruningLogsF {
+public class PruningLogs {
     private Queries queries1;
     private Queries queries2;
 //     Queries queries1SELECT = new Queries();
@@ -85,8 +85,9 @@ private Set<Node> logsPredicates = new HashSet<Node>();
     
     private ExecutionStrategy executor = new FusekiExecution();
     
-    public PruningLogsF(String queriesFilePath1, String queriesFilePath2, ArrayList<String> sumFiles) {
-        //queries1 = new Queries(queriesFilePath1);                                                                                                       
+    public PruningLogs(String queriesFilePath1, String queriesFilePath2, ArrayList<String> sumFiles) {
+        //queries1 = new Queries(queriesFilePath1);
+        ARQ.init();
         queries1 = this.getSELECTQueries(queriesFilePath1);
         //queries2 = new Queries(queriesFilePath2);                                                                                                       
         queries2 = this.getSELECTQueries(queriesFilePath2);
@@ -95,7 +96,8 @@ private Set<Node> logsPredicates = new HashSet<Node>();
         System.out.println("Second querie file size: " + queries2.getQueries().size());
     }
 
-    public PruningLogsF(String queriesFilePath1, String queriesFilePath2, ArrayList<String> sumFiles, String nonCrypte) {
+    public PruningLogs(String queriesFilePath1, String queriesFilePath2, ArrayList<String> sumFiles, String nonCrypte) {
+        ARQ.init();
         queries1 = new Queries(queriesFilePath1, "nonCrypte");
         queries2 = new Queries(queriesFilePath2, "nonCrypte");
         matcher = new MatchingPredicates(sumFiles);
@@ -380,10 +382,10 @@ private Set<Node> logsPredicates = new HashSet<Node>();
     }
 
     public void pruningPredicatesLogs(ArrayList<String> sumFiles, String so, String log1PredicatesPrunFile, String log2PredicatesPrunFile) throws IOException {
-        FileWriter fwPre1P = new FileWriter(log1PredicatesPrunFile);
-        BufferedWriter bwPre1P = new BufferedWriter(fwPre1P);
-        FileWriter fwPre2P = new FileWriter(log2PredicatesPrunFile);
-        BufferedWriter bwPre2P = new BufferedWriter(fwPre2P);
+//         FileWriter fwPre1P = new FileWriter(log1PredicatesPrunFile);
+//         BufferedWriter bwPre1P = new BufferedWriter(fwPre1P);
+//         FileWriter fwPre2P = new FileWriter(log2PredicatesPrunFile);
+//         BufferedWriter bwPre2P = new BufferedWriter(fwPre2P);
         
         //Change them to Set of couplePred so we don't excute predicate with mismatch auth
         log1Predicates = new HashSet<Node>();

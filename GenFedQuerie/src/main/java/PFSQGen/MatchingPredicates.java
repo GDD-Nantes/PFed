@@ -22,17 +22,6 @@ public class MatchingPredicates {
     private Summaries summariesList2;
     private List<MatchCapabilities> matchingTable;
 
-    
-    
-
-//     private ArrayList<String> getJWPredicates(List<Capability> joinableWith) {
-//          ArrayList<String> predicates = new ArrayList<>();
-//          joinableWith.forEach((cy) -> {
-//              predicates.add((String)cy.getPredicate());
-//         });
-//             return predicates;
-//     }
-
     public class MatchCapabilities {
         //Transform it to Map String -> list<Capa>
         private String predicate;
@@ -159,46 +148,12 @@ public class MatchingPredicates {
     
 
     public int testExistingMatch(String predicate1, String predicate2) {
-//     public int testExistingMatch2Predicates(String predicate1, String predicate2, Query q1, Query q2) {
-        // System.out.println("****** "+matchingTable.get(2).getPredicate());//+" *sara* "+matchingTable.get(0).joinableWith.contains(predicate2));
         for (int i = 0; i < matchingTable.size(); i++) {
-           // predicate2 = "http://www.w3.org/2004/02/skos/core#subject";
-           //System.out.println(getJWPredicates(matchingTable.get(12).joinableWith));
-           // System.out.println("****** "+matchingTable.get(i).getPredicate()+"         "+matchingTable.get(12).joinableWith.toString());
-          //  System.out.println("****** "+matchingTable.get(12).joinableWith.get(0).getPredicate()contains(predicate2));
-            //System.out.println("matchingTable.get(i).getPredicate() = "+matchingTable.get(i).getPredicate());
-         //   System.out.println(matchingTable.get(i)+" *** "+matchingTable.get(i).joinableWith);
-         //System.out.println("predicate1 = "+predicate1+" / getPredicate() = "+matchingTable.get(i).getPredicate());
-         //System.out.println("predicate1 = "+q1.addPrefixeString(predicate1));
-         //System.out.println("predicate2 = "+predicate2+"     "+q2.addPrefixeString(predicate2));
-         
-         
-        /*  if (matchingTable.get(i).getPredicate().equals(q1.addPrefixeString("rdf:type"))) {
-         for (int k=0; k < matchingTable.get(i).joinableWith.size(); k++) {
-             System.out.println("*"+matchingTable.get(i).joinableWith.get(k).getPredicate());
-             System.out.println(q2.addPrefixeString("rdfs:comment"));
-         if(matchingTable.get(i).joinableWith.get(k).getPredicate().get(0).equals(q2.addPrefixeString("rdfs:comment"))){
-                        System.out.println("********************************************************");
-                    }
-         }
-          }*/
-         
-          
-          
-            //if (matchingTable.get(i).getPredicate().equals(q1.addPrefixString(predicate1))) {
             if (matchingTable.get(i).getPredicate().equals(predicate1)) {
-                //System.out.println(" found "+i);
-                //System.out.println("* "+getJWPredicates(matchingTable.get(i).joinableWith));
-                //if (getJWPredicates(matchingTable.get(i).joinableWith).toString().contains(predicate2.split(":")[1].toString())) {
                 if (predicate2.subSequence(0, 1).equals("<")) {
                     predicate2 = predicate2.substring(1, predicate2.length()-1);
                 }
                 for (int k=0; k < matchingTable.get(i).joinableWith.size(); k++) {
-                    //System.out.println("predicate1 = "+predicate1);
-                    //System.out.println("getPredicate = "+matchingTable.get(i).joinableWith.get(k).getPredicate().get(0)+" *  predicate2 = "+q2.addPrefixeString(predicate2));
-                    //System.out.println(predicate2+"    "+q2.addPrefixeString(predicate2));
-                    
-                   // if(matchingTable.get(i).joinableWith.get(k).getPredicate().get(0).equals(q2.addPrefixString(predicate2))){
                     if(matchingTable.get(i).joinableWith.get(k).getPredicate().equals(predicate2)){
                      
                         if ((matchingTable.get(i).joinableWith.get(k).getSbjAuthority().size() != 0) && (matchingTable.get(i).joinableWith.get(k).getObjAuthority().size() == 0)) {
@@ -215,15 +170,6 @@ public class MatchingPredicates {
                         }
                     }
                 }
-   
-                
-                
-                
-                //if (getJWPredicates(matchingTable.get(i).joinableWith).toString().contains(q2.addPrefixeString(predicate2))) {
-                  //  return i;
-                //}
-                //return getJWPredicates(matchingTable.get(i).joinableWith).toString().contains(predicate2);
-                // return i;
             }
         }
         return -1;

@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import PFSQGen.SparqlQueryParser;
-import PFSQGen.PruningLogsF;
+import PFSQGen.PruningLogs;
 import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.graph.Node;
 
@@ -25,7 +25,7 @@ public class TestPrunQueryLog{
         
         String predicate1FilePath = "predSWDF.txt";
         String predicate2FilePath = "predDBPD.txt";
-        PruningLogsF PLpath = new PruningLogsF(queriesFilePath1, queriesFilePath2, sumFileList, "nonCypte");
+        PruningLogs PLpath = new PruningLogs(queriesFilePath1, queriesFilePath2, sumFileList, "nonCypte");
 //         PruningLogsF PLpath = new PruningLogsF(querieSplodge, querieSplodge, sumFileList, "nonCypte");
         
         //Load preds
@@ -39,7 +39,7 @@ public class TestPrunQueryLog{
         writeAll(resSWDF, "results/QueriesPrunSWDF.txt");
     }
     
-    public static void addAllToLog1(String inputFile, PruningLogsF pl){
+    public static void addAllToLog1(String inputFile, PruningLogs pl){
         try(BufferedReader br = new BufferedReader(new FileReader(inputFile))){
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
@@ -50,7 +50,7 @@ public class TestPrunQueryLog{
          }
     }
     
-    public static void addAllToLog2(String inputFile, PruningLogsF pl){
+    public static void addAllToLog2(String inputFile, PruningLogs pl){
         try(BufferedReader br = new BufferedReader(new FileReader(inputFile))){
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {

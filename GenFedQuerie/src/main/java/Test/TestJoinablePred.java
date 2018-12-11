@@ -1,6 +1,6 @@
 package Test;
 
-import PFSQGen.PruningLogsF;
+import PFSQGen.PruningLogs;
 import java.util.Set;
 import java.util.ArrayList;
 import org.apache.jena.graph.Node;
@@ -24,7 +24,7 @@ public class TestJoinablePred {
                 ArrayList<String> sumFileListRev = new ArrayList<String>();
                 sumFileListRev.add(Sum2);
                 sumFileListRev.add(Sum1);
-                PruningLogsF PLpathRev = new PruningLogsF(queriesFilePath2, queriesFilePath1, sumFileListRev, "nonCypte");
+                PruningLogs PLpathRev = new PruningLogs(queriesFilePath2, queriesFilePath1, sumFileListRev, "nonCypte");
                 PLpathRev.pruningPredicatesLogs(sumFileListRev, "path", log1PrunFile, log2PrunFile);
                 res1 = PLpathRev.getLog1PredicatesPrun();
                 res2 = PLpathRev.getLog2PredicatesPrun();
@@ -32,7 +32,7 @@ public class TestJoinablePred {
             ArrayList<String> sumFileList = new ArrayList<String>();
             sumFileList.add(Sum1);
             sumFileList.add(Sum2);
-            PruningLogsF PLpath = new PruningLogsF(queriesFilePath1, queriesFilePath2, sumFileList, "nonCypte");
+            PruningLogs PLpath = new PruningLogs(queriesFilePath1, queriesFilePath2, sumFileList, "nonCypte");
             PLpath.pruningPredicatesLogs(sumFileList, "star", log1PrunFile, log2PrunFile);
             res1 = PLpath.getLog1PredicatesPrun();
             res2 = PLpath.getLog2PredicatesPrun();
@@ -40,7 +40,7 @@ public class TestJoinablePred {
             ArrayList<String> sumFileList = new ArrayList<String>();
             sumFileList.add(Sum1);
             sumFileList.add(Sum2);
-            PruningLogsF PLpath = new PruningLogsF(queriesFilePath1, queriesFilePath2, sumFileList, "nonCypte");
+            PruningLogs PLpath = new PruningLogs(queriesFilePath1, queriesFilePath2, sumFileList, "nonCypte");
             PLpath.pruningPredicatesLogs(sumFileList, "path", log1PrunFile, log2PrunFile);
             res1 = PLpath.getLog1PredicatesPrun();
             res2 = PLpath.getLog2PredicatesPrun();
