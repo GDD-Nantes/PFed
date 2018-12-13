@@ -300,8 +300,12 @@ private Set<Node> logsPredicates = new HashSet<Node>();
         ArrayList<SparqlQueryParser> queriesprun = new ArrayList<SparqlQueryParser>();
         for (SparqlQueryParser q : queries) {
             Query query = QueryFactory.create(q.getQueryString());
+            try{
             if (this.containsNode(getPredicates(query), predicate)) {
                 queriesprun.add(q);
+            }
+            }catch (Exception e){
+                System.out.println("null");
             }
         }
         return queriesprun;
@@ -437,7 +441,313 @@ private Set<Node> logsPredicates = new HashSet<Node>();
         if(logPredicatesPrun.putIfAbsent(l1, temp) != null)
             logPredicatesPrun.get(l1).add(l2);
     }
+    //-----------MAX------------
+    public int getIndiceVal(String[] table, String val) {
+        for (int j = 0; j < table.length; j++) {
+            if (table[j].contains(val) || table[j].contains(val.split("/")[val.split("/").length - 1])) {
+                return j;
+            }
+        }
+        return 0;
+    }
+    
+    public String renameVariables(String query, String suffix) {
+        String q = "";
+        String[] table = query.split("[\\s\\xA0]+");
+        for (int i = 0; i < table.length; i++) {//System.out.println("--"+i+"  "+table.toString());
+            if (table[i].length() > 1) {
+                if (table[i].substring(0,1).equals("?")) {
+                    table[i] = table[i]+"_"+suffix;
+                }
+            }
+        }
+        for (int j = 0; j < table.length; j++) {
+            q = q + table[j] + " ";
+        }
+        return q;
+    }
+    //-----------MAX PATH-------
+    public String concatenate2QueriesService(String query1, String predicate1Join, String query2, String predicate2Join, String sparqlEndpoint) {
+        String q = "";String temp="";
+        String[] table = query1.split("[\\s\\xA0]+");
+        String[] table2 = query2.split("[\\s\\xA0]+");
+//         System.out.println("-------------------");
+//         for(String s: table2)
+//             System.out.println(s);
+//         System.out.println("--------------------");
+        int indiceWhere = this.getIndiceVal(table2, "WHERE");//System.out.println(indiceWhere);
+        int indicePredicate2Join = this.getIndiceVal(table2, predicate2Join);
+        String valRemplace = null;
+        if (indicePredicate2Join > 0) {
+        	valRemplace = table2[indicePredicate2Join - 1];
+        }
+        String[] newtable = null;
+        for (int i = 0; i < table.length; i++) {
+            if ((table[i].contains(predicate1Join)) || (table[i].contains(":" + predicate1Join.split("/")[predicate1Join.split("/").length - 1])) || (table[i].contains(":" + predicate1Join.split("#")[predicate1Join.split("#").length - 1]))) {
+                //System.out.println(i+" / "+table[i]);
+                temp = table[i + 1];
+//                System.out.println(valRemplace+" / "+temp);
+                newtable = this.addElementAtIndice(table, "SERVICE <" + sparqlEndpoint + "> {", i + 3);
+                int k=i+4;
+                int posEnd2 = 0;
+                for(int j=table2.length-1;j>indiceWhere+2;--j){
+                    if(table2[j].contains("}")){
+                        posEnd2 = j;
+                        break;
+                    }
+                }
+//                 for (int j=indiceWhere+2; j<table2.length-1; j++) {
+                for (int j=indiceWhere+2; j<posEnd2; j++) {
+                    newtable = this.addElementAtIndice(newtable, table2[j], k);
+                    k++;
+                }
+                newtable = this.addElementAtIndice(newtable, " }", k);
+                //System.out.println("**"+table[i+1]);
+                if (newtable[i + 2].equals("}")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "}", k+1);
+                } else if (newtable[i + 2].equals("FILTER")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "FILTER", k+1);
+                } else if (newtable[i + 2].equals("OPTIONAL")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "OPTIONAL", k+1);
+                } else if (newtable[i + 2].equals("UNION")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "UNION", k+1);
+                } else if (newtable[i + 2].equals("LIMIT")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "LIMIT", k+1);
+                } else if (newtable[i + 2].equals("ORDER BY")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "ORDER BY", k+1);
+                } else if (newtable[i + 2].equals("OFFSET")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "OFFSET", k+1);
+                } else if (newtable[i + 2].equals("MINUS")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "MINUS", k+1);
+                }else {
+                    newtable = this.addElementAtIndice(newtable, ".", k+1);
+                }
+            }
+        }
+	// add query2 prefixes
+        int indiceSelect = this.getIndiceVal(table2, "SELECT");
+        String prefixes = "";
+        for (int l = 0; l<indiceSelect; l++) {
+            prefixes = prefixes + table2[l] + " ";
+        }
+        q = q + prefixes;
+        for (int j = 0; j < newtable.length; j++) {
+            q = q + newtable[j] + " ";
+        }
+        
+        // unification join point (var&var -> var / var&cte -> cte / cte&cte -> null)
+        // we assume that a federated query Q is composed on two simple queries
+        if (valRemplace != null) {
+            if (valRemplace.substring(0, 1).equals("?")) {
+                if (temp.substring(0, 1).equals("?")) { //var&var 
+                    q = q.replaceAll("\\"+valRemplace, "\\"+temp);
+                    return q;
+                } else { //var&cte
+                    System.out.println("------------1");
+                    return null;
+                }
+            } else {
+                if (temp.substring(0, 1).equals("?")) { //cte&var
+                    System.out.println("------------2");
+                    return null;
+                } else { //cte&cte
+                    if (valRemplace.equals(temp)) {
+                        return q;
+                    } else {
+                        System.out.println("------------3");
+                        return null;
+                    }
+                }
+            }
+        }else {
+            return null;
+        }
+       // return q;
+    }
+    
+    public void genFedMaximalPath(String sparqlEndpoint1, String sparqlEndpoint2, String genFedFile) throws IOException {
+//         System.out.println("dicJoinPath "+logPredicatesPrun);
+        fw = new FileWriter(genFedFile);
+        bw = new BufferedWriter(fw);
+        ArrayList<Query> genQueries = new ArrayList<Query>();
+        bw.write("#-------------------------------------------------------\n");
+        for (String s : logPredicatesPrun.keySet()) {
+            ArrayList<SparqlQueryParser> queries1prunDicJoin = new ArrayList<>();
+            queries1prunDicJoin = pruningLog(queries1.getQueries(), s);
+            System.out.println("s = "+s+" / st = "+logPredicatesPrun.get(s).size());
+            for (SparqlQueryParser q1 : queries1prunDicJoin) {//System.out.println("*"+q1);
+                String query1 = this.renameVariables(q1.toString(), "log1");
+                for (String st : logPredicatesPrun.get(s)) {
+                    ArrayList<SparqlQueryParser> queries2prunDicJoin = new ArrayList<>();
+                    queries2prunDicJoin = pruningLog(queries2.getQueries(), st);
+                    for (SparqlQueryParser q2 : queries2prunDicJoin) {
+                        String query2 = this.renameVariables(q2.toString(), "log2");
+                        String q = this.concatenate2QueriesService(query1, s, query2, st, sparqlEndpoint2);
+                        if (q != null) {
+                            Query query = QueryFactory.create(q);
+                            genQueries.add(query);
+                            bw.write("query: "+q);
+                            bw.write("\n#-------------------------------------------------------\n");
+                            bw.flush();
+                        }
+                    }
+                }
+            }
+        }
+        bw.flush();
+        System.out.println("genQueries = "+genQueries.size());
+        System.out.println("done.");
+    }  
+    
+    //----------------------------MAX STAR-----------
+    public String concatenate2QueriesServiceStar(String query1, String predicate1Join, String query2, String predicate2Join, String sparqlEndpoint) {
+        String q = "";String temp="";
+//         System.out.println("query1: "+query1+"      /   "+predicate1Join);
+//         System.out.println("query2: "+query2+"      /   "+predicate2Join);
+        String[] table = query1.split("[\\s\\xA0]+");
+        String[] table2 = query2.split("[\\s\\xA0]+");
+        int indiceWhere = this.getIndiceVal(table2, "WHERE");//System.out.println(indiceWhere);
+        int indicePredicate2Join = this.getIndiceVal(table2, predicate2Join);
+//         System.out.println("indicePredicate2Join: "+indicePredicate2Join);
+        String valRemplace = null;
+        if (indicePredicate2Join > 0) {
+            valRemplace = table2[indicePredicate2Join - 1]; 
+//             System.out.println("valRemplace: "+valRemplace);
+        }
+        String[] newtable = null;
+        for (int i = 0; i < table.length; i++) {
+        if ((table[i].contains(predicate1Join)) || (table[i].contains(":" + predicate1Join.split("/")[predicate1Join.split("/").length - 1])) || (table[i].contains(":" + predicate1Join.split("#")[predicate1Join.split("#").length - 1]))) {                //System.out.println(i+" / "+table[i]);
+                temp = table[i - 1]; // get Subject of predicate1Join
+//                System.out.println(valRemplace+" / "+temp);
+                newtable = this.addElementAtIndice(table, "SERVICE <" + sparqlEndpoint + "> {", i + 3);
+                int k=i+4;
+                int posEnd2 = 0;
+                for(int j=table2.length-1;j>indiceWhere+2;--j){
+                    if(table2[j].contains("}")){
+                        posEnd2 = j;
+                        break;
+                    }
+                }
+//                 for (int j=indiceWhere+2; j<table2.length-1; j++) {
+                for (int j=indiceWhere+2; j<posEnd2; j++) {
+                    newtable = this.addElementAtIndice(newtable, table2[j], k);
+                    k++;
+                }
+                newtable = this.addElementAtIndice(newtable, " }", k);
+                //System.out.println("**"+table[i+1]);
+                if (newtable[i + 2].equals("}")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "}", k+1);
+                } else if (newtable[i + 2].equals("FILTER")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "FILTER", k+1);
+                } else if (newtable[i + 2].equals("OPTIONAL")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "OPTIONAL", k+1);
+                } else if (newtable[i + 2].equals("UNION")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "UNION", k+1);
+                } else if (newtable[i + 2].equals("LIMIT")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "LIMIT", k+1);
+                } else if (newtable[i + 2].equals("ORDER BY")) {
+                newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "ORDER BY", k+1);
+                } else if (newtable[i + 2].equals("OFFSET")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "OFFSET", k+1);
+                } else if (newtable[i + 2].equals("MINUS")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "MINUS", k+1);
+                } else if (newtable[i + 2].equals("ORDER")) {
+                    newtable[i + 2] = ".";
+                    newtable = this.addElementAtIndice(newtable, "ORDER", k+1);
+                } else {
+                    newtable = this.addElementAtIndice(newtable, ".", k+1);
+                }
+            }
+        }
+        // add query2 prefixes
+        int indiceSelect = this.getIndiceVal(table2, "SELECT");
+        String prefixes = "";
+        for (int l = 0; l<indiceSelect; l++) {
+            prefixes = prefixes + table2[l] + " ";
+        }
+        q = q + prefixes;
+        for (int j = 0; j < newtable.length; j++) {
+            q = q + newtable[j] + " ";
+        }
+        
+        // unification join point (var&var -> var / var&cte -> cte / cte&cte -> null)
+        // we assume that a federated query Q is composed on two simple queries
+        if (valRemplace != null) {
+            if (valRemplace.substring(0, 1).equals("?")) {
+                if (temp.substring(0, 1).equals("?")) { //var&var 
+                    q = q.replaceAll("\\"+valRemplace, "\\"+temp);
+//                     System.out.println("yes : "+q);
+                    return q;
+                } else { //var&cte
+                    return null;
+                }
+            } else {
+                if (temp.substring(0, 1).equals("?")) { //cte&var
+                    return null;
+                } else { //cte&cte
+                    if (valRemplace.equals(temp)) {
+//                         System.out.println("yes2 : "+q);
+                        return q;
+                    } else {
+                        return null;
+                    }
+                }
+            }
+        } else {//System.out.println("je ss là");
+            return null;
+        }
+    }
 
+
+    public void genFedMaximalStar(String sparqlEndpoint1, String sparqlEndpoint2, String genFedFile) throws IOException {
+//         System.out.println("logPredicatesPrun "+logPredicatesPrun);
+        fw = new FileWriter(genFedFile);
+        bw = new BufferedWriter(fw);
+        ArrayList<Query> genQueries = new ArrayList<Query>();
+        bw.write("#-------------------------------------------------------\n");
+        for (String s : logPredicatesPrun.keySet()) {
+            ArrayList<SparqlQueryParser> queries1prunDicJoin = new ArrayList<>();
+            queries1prunDicJoin = pruningLog(queries1.getQueries(), s);System.out.println("queries1: "+queries1prunDicJoin.size());
+            System.out.println("s = "+s+" / st = "+logPredicatesPrun.get(s).size());
+            for (SparqlQueryParser q1 : queries1prunDicJoin) {//System.out.println("*"+q1);
+                String query1 = this.renameVariables(q1.toString(), "log1");
+                for (String st : logPredicatesPrun.get(s)) {
+                    ArrayList<SparqlQueryParser> queries2prunDicJoin = new ArrayList<>();
+                    queries2prunDicJoin = pruningLog(queries2.getQueries(), st);System.out.println("queries2: "+queries2prunDicJoin.size());
+                    for (SparqlQueryParser q2 : queries2prunDicJoin) {
+                        String query2 = this.renameVariables(q2.toString(), "log2");
+                       String q = this.concatenate2QueriesServiceStar(query1, s, query2, st, sparqlEndpoint2);
+                        if (q != null) {
+                            Query query = QueryFactory.create(q);
+                            System.out.println("*q = "+query);
+                            bw.write("query: "+q);
+                            bw.write("\n#-------------------------------------------------------\n");
+                            bw.flush();
+                        }
+                    }
+                }
+            }
+        }
+        bw.flush();
+        System.out.println("genQueries = "+genQueries.size());
+        System.out.println("done.");
+    }  
 //     public ArrayList<SparqlQueryParser> pruningLog1Predicates(String so) {
 //     
 //         System.out.println("****** Preds File 1 : " + log1PredicatesPrun.size());

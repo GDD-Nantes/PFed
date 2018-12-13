@@ -87,7 +87,31 @@ public class PFed{
             outputDir = "results/";
         }
         if(cline.hasOption("m")){
-            //Generates max queries
+            if(isStar){
+                System.out.println();                                                                                                     
+                System.out.println("----------------------------------------------");
+                System.out.println();
+                System.out.println("Generated federated queries Maximal Star between " + checkConfig(confA, "name") + " and "+checkConfig(confB, "name") +" :");
+                System.out.println();
+                System.out.println("----------------------------------------------");
+                PLpath.genFedMaximalStar(endpoint1, endpoint2, outputDir+"genFedMaximalStarFile.txt");
+            }else if(isRev){
+                System.out.println();                                                                                                         
+                System.out.println("----------------------------------------------");
+                System.out.println();
+                System.out.println("Generated federated queries Maximal Path from " + checkConfig(confB, "name") + " to "+checkConfig(confA, "name") +" :");
+                System.out.println();
+                System.out.println("----------------------------------------------");
+                PLpath.genFedMaximalPath(endpoint2, endpoint1, outputDir+"genFedMaximalPathFile.txt");
+            }else{
+                System.out.println();                                                                                                     
+                System.out.println("----------------------------------------------");
+                System.out.println();
+                System.out.println("Generated federated queries Maximal Path from " + checkConfig(confA, "name") + " to "+checkConfig(confB, "name") +" :");
+                System.out.println();
+                System.out.println("----------------------------------------------");
+                PLpath.genFedMaximalPath(endpoint1, endpoint2, outputDir+"genFedMaximalPathFile.txt");
+            }
         }else{
             if(isStar){
                 System.out.println();                                                                                                     

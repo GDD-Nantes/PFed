@@ -129,6 +129,10 @@ public class Queries {
     public ArrayList<SparqlQueryParser> getQueries() {
         return queries;
     }
+    
+    public SparqlQueryParser getQueryAt(int pos){
+        return queries.get(pos);
+    }
 
     public void setQueries(ArrayList<SparqlQueryParser> queries) {
         this.queries = queries;
