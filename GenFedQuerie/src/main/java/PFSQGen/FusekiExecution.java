@@ -2,7 +2,6 @@ package PFSQGen;
 
 import PFSQGen.ExecutionStrategy;
 
-import org.apache.jena.graph.Node;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -25,7 +24,7 @@ public class FusekiExecution implements ExecutionStrategy {
         return false;
     }
     
-    public String createPath(Node n1, Node n2, String servN2){
+    public String createPath(String n1, String n2, String servN2){
         return "SELECT * WHERE {\n"
             + "\t?v0 <" + n1 + "> ?v1 . \n"
             + "\tSERVICE <" + servN2 + "> { \n"
@@ -34,13 +33,13 @@ public class FusekiExecution implements ExecutionStrategy {
             + "\tFILTER(isURI(?v1))\n"
             + "}";
     }
-    public String createStar(Node n1, Node n2, String servN2){
+    public String createStar(String n1, String n2, String servN2){
         return "SELECT * WHERE {\n"
             + "\t?v0 <" + n1 + "> ?v1 . \n"
             + "\tSERVICE <" + servN2 + "> { \n"
             + "\t\t?v0 <" + n2 + "> ?v2 . \n"
             + "\t}\n"
-            + "\tFILTER(isURI(?v1))\n"
+            + "\tFILTER(isURI(?v0))\n"
             + "}";
     }
 }

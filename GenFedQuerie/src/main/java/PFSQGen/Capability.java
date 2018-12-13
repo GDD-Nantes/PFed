@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.Objects;
 
 public class Capability {
-    //HashMap Stringn Authority?
     private String predicates;
     private Set<String> sbjAuthority;
     private Set<String> objAuthority;

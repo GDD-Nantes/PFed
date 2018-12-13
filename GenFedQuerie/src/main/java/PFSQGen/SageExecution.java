@@ -6,7 +6,6 @@ import org.gdd.sage.engine.SageExecutionContext;
 import org.gdd.sage.core.factory.ISageQueryFactory;
 import org.gdd.sage.core.factory.SageQueryFactory;
 
-import org.apache.jena.graph.Node;
 import org.apache.jena.query.ARQ;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.Query;
@@ -38,7 +37,7 @@ public class SageExecution implements ExecutionStrategy {
         return false;
     }
     
-    public String createPath(Node n1, Node n2, String servN2){
+    public String createPath(String n1, String n2, String servN2){
         return "SELECT * WHERE {\n"
             + "\t?v0 <" + n1 + "> ?v1 . \n"
             + "\tSERVICE <" + servN2 + "> { \n"
@@ -46,7 +45,7 @@ public class SageExecution implements ExecutionStrategy {
             + "\t}\n"
             + "}";
     }
-    public String createStar(Node n1, Node n2, String servN2){
+    public String createStar(String n1, String n2, String servN2){
         return "SELECT * WHERE {\n"
             + "\t?v0 <" + n1 + "> ?v1 . \n"
             + "\tSERVICE <" + servN2 + "> { \n"
