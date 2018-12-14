@@ -77,6 +77,9 @@ public class PFed{
         if(cline.hasOption("sage"))
             PLpath.setExecutor(new SageExecution());
         
+        if(cline.hasOption("noExec"))
+            PLpath.setExecutor(new SaveExecution(outputDir+"unexecutedQueries.txt"));
+        
         String outputDir;
         if(cline.hasOption("o")){
             outputDir = cline.getOptionValue("o");
@@ -183,6 +186,11 @@ public class PFed{
                         .longOpt("sage")
                         .desc("Uses Sage client instead of Fuseki to execute queries.")
                         .build();
+        Option noExec = Option.builder("noExec")
+                        .required(false)
+                        .longOpt("noExec")
+                        .desc("Writes the queries instead of executing them first. Have priorities over execution arguments.")
+                        .build();
                         
         Options options = new Options();
         options.addOption(confA);
@@ -191,6 +199,7 @@ public class PFed{
         options.addOption(max);
         options.addOption(output);
         options.addOption(sage);
+        options.addOption(noExec);
         return options;
     }
     //From Splodge
