@@ -74,12 +74,6 @@ public class PFed{
             PLpath.pruningPredicatesLogs(sumFileList, "path", "", "");
         }
         
-        if(cline.hasOption("sage"))
-            PLpath.setExecutor(new SageExecution());
-        
-        if(cline.hasOption("noExec"))
-            PLpath.setExecutor(new SaveExecution(outputDir+"unexecutedQueries.txt"));
-        
         String outputDir;
         if(cline.hasOption("o")){
             outputDir = cline.getOptionValue("o");
@@ -89,6 +83,13 @@ public class PFed{
         }else{
             outputDir = "results/";
         }
+        
+        if(cline.hasOption("sage"))
+            PLpath.setExecutor(new SageExecution());
+        
+        if(cline.hasOption("noExec"))
+            PLpath.setExecutor(new SaveExecution(outputDir+"unexecutedQueries.txt"));
+        
         if(cline.hasOption("m")){
             if(isStar){
                 System.out.println();                                                                                                     

@@ -14,9 +14,13 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QueryExecution;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.query.QuerySolution;
+
+import java.util.List;
+import java.util.ArrayList;
 
 public class SageExecution implements ExecutionStrategy {
-    @Override
     public boolean hasResult(String q, String endPoint) throws QueryException{
         Query qGen = QueryFactory.create(q);
         qGen.setLimit(1);
@@ -35,6 +39,28 @@ public class SageExecution implements ExecutionStrategy {
             throw e;
         }
         return false;
+    }
+    public List<RDFNode> execute1Field(String q, String endPoint, String field) throws QueryException {
+        List<RDFNode> resList = new ArrayList<RDFNode>();
+        Query qGen = QueryFactory.create(q);
+        ISageQueryFactory factory = new SageQueryFactory(endPoint, qGen);
+        factory.buildDataset();
+        qGen = factory.getQuery();
+        Dataset federation = factory.getDataset();
+        SageExecutionContext.configureDefault(ARQ.getContext());
+        try(QueryExecution queryExecution = QueryExecutionFactory.create(qGen, federation)){
+//             return queryExecution.execSelect();
+            ResultSet resultSet = queryExecution.execSelect();
+            for ( ; resultSet.hasNext() ; ){
+                QuerySolution soln = resultSet.nextSolution() ;
+                RDFNode x = soln.get("type") ;
+                if(x != null)
+                    resList.add(x);
+            }
+        }catch(QueryException e){
+            throw e;
+        }
+        return resList;
     }
     
     public String createPath(String n1, String n2, String servN2){

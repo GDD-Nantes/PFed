@@ -70,29 +70,19 @@ public class Queries {
             boolean ok = true;
             StringBuffer temp = new StringBuffer() ;
             while ((sCurrentLine = br.readLine()) != null ) {
-                //if (sCurrentLine.startsWith("Query String:")) {
-        //decode        if (sCurrentLine.startsWith("Query String: ")) {
-                //if (sCurrentLine.startsWith("#-------------------------------------------------------")){
-        //decode            String temp = new String(URLDecoder.decode(sCurrentLine.substring(14)));
-                    
-                 
-                    
-                    if (sCurrentLine.startsWith("#-----") ) {
-                        if (temp.length()!=0) {
-                        SparqlQueryParser q = new SparqlQueryParser(temp.toString());
-                    //    System.out.println("q = "+q);
-                        queries.add(q);
-                    //    System.out.println("");
-                        temp = new StringBuffer() ;
-                        }
+                if (sCurrentLine.startsWith("#-----") ) {
+                    if (temp.length()!=0) {
+                    SparqlQueryParser q = new SparqlQueryParser(temp.toString());
+                    queries.add(q);
+                    temp = new StringBuffer() ;
                     }
-                    else 
-                    {
-                        temp.append(" "+sCurrentLine);
-                    }
-                    
                 }
-        //decode    }
+                else 
+                {
+                    temp.append(" "+sCurrentLine);
+                }
+                
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

@@ -5,6 +5,9 @@ import PFSQGen.ExecutionStrategy;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QueryException;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.RDFNode;
+import java.util.List;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -45,6 +48,32 @@ public class SaveExecution implements ExecutionStrategy {
             }
         }
         return false;        
+    }
+    
+    public List<RDFNode> execute1Field(String q, String endPoint, String field) throws QueryException{
+        Query qGen = QueryFactory.create(q);
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        try {
+            fw = new FileWriter(filePath,true);
+            bw = new BufferedWriter(fw);
+            bw.write("#-------------------------------------------------------\n");
+            bw.write(qGen.toString()+"\n");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (bw != null) {
+                    bw.close();
+                }
+                if (fw != null) {
+                    fw.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return null;  
     }
     
     public String createPath(String n1, String n2, String servN2){
