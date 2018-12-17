@@ -17,11 +17,8 @@ Build using [Maven](http://maven.apache.org/)
 
 # Execute
 
-`java -jar target/PFed.jar [-h] -A <firstConfigFile> -B <secondConfigFile> -g <joinType> [-m] [-o <outputDir>] [--sage]`
+`java -jar target/PFed.jar [-h] -A <firstConfigFile> -B <secondConfigFile> -g <joinType> [-m] [-o <outputDir>] [--sage] [--noExec] [--withType]`
 
-For example, to generate all min path between SWDF 2012 and DBpedia 3.5.1, with results on a Fuseki endpoint:
-
-`java -jar target/PFed.jar -A configs/configSWDF.conf -B configs/configDBpedia.conf -g PATH_AB`
 
  `-A,--configA <arg>`    Configuration file for the dataset A.
  
@@ -33,4 +30,18 @@ For example, to generate all min path between SWDF 2012 and DBpedia 3.5.1, with 
  
  `-o,--output <arg>`     Output folder for queries generated. Defaults to results at the root of the project.
  
-`-sage,--sage`           Uses Sage client instead of Fuseki to execute queries.
+ `-sage,--sage`          Uses Sage client instead of Fuseki to execute queries.
+
+ `-noExec,--noExec`      Writes the queries instead of executing them first. Have priorities over execution arguments.
+
+ `-t,--withType`         Also check the types of predicates before joining them.
+ 
+# Examples
+ 
+Generate all min path between SWDF 2012 and DBpedia 3.5.1, with results on a Fuseki endpoint:
+
+`java -jar target/PFed.jar -A configs/configSWDF.conf -B configs/configDBpedia.conf -g PATH_AB`
+
+Generate all max star between SWDF 2012 and DBpedia 3.5.1, without execution and using Type summaries:
+
+`java -jar target/PFed.jar -A configs/configSWDF.conf -B configs/configDBpedia.conf -g STAR -t -m --noExec`
