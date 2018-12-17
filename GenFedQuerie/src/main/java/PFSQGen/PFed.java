@@ -109,7 +109,7 @@ public class PFed{
                 System.out.println("Generated federated queries Maximal Star between " + checkConfig(confA, "name") + " and "+checkConfig(confB, "name") +" :");
                 System.out.println();
                 System.out.println("----------------------------------------------");
-                PLpath.genFedMaximalStar(endpoint1, endpoint2, outputDir+"genFedMaximalStarFile.txt");
+                PLpath.genFedMaximal(endpoint1, endpoint2, outputDir+"genFedMaximalStarFile.txt", "star");
             }else if(isRev){
                 System.out.println();                                                                                                         
                 System.out.println("----------------------------------------------");
@@ -117,7 +117,7 @@ public class PFed{
                 System.out.println("Generated federated queries Maximal Path from " + checkConfig(confB, "name") + " to "+checkConfig(confA, "name") +" :");
                 System.out.println();
                 System.out.println("----------------------------------------------");
-                PLpath.genFedMaximalPath(endpoint2, endpoint1, outputDir+"genFedMaximalPathFile.txt");
+                PLpath.genFedMaximal(endpoint2, endpoint1, outputDir+"genFedMaximalPathFile.txt", "path");
             }else{
                 System.out.println();                                                                                                     
                 System.out.println("----------------------------------------------");
@@ -125,7 +125,7 @@ public class PFed{
                 System.out.println("Generated federated queries Maximal Path from " + checkConfig(confA, "name") + " to "+checkConfig(confB, "name") +" :");
                 System.out.println();
                 System.out.println("----------------------------------------------");
-                PLpath.genFedMaximalPath(endpoint1, endpoint2, outputDir+"genFedMaximalPathFile.txt");
+                PLpath.genFedMaximal(endpoint1, endpoint2, outputDir+"genFedMaximalPathFile.txt", "path");
             }
         }else{
             if(isStar){

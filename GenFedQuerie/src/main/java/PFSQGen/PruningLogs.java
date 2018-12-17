@@ -509,8 +509,7 @@ private Set<Node> logsPredicates = new HashSet<Node>();
        // return q;
     }
     
-    public void genFedMaximalPath(String sparqlEndpoint1, String sparqlEndpoint2, String genFedFile) throws IOException {
-//         System.out.println("dicJoinPath "+logPredicatesPrun);
+    public void genFedMaximal(String sparqlEndpoint1, String sparqlEndpoint2, String genFedFile, String so) throws IOException {
         fw = new FileWriter(genFedFile);
         bw = new BufferedWriter(fw);
         ArrayList<Query> genQueries = new ArrayList<Query>();
@@ -534,11 +533,18 @@ private Set<Node> logsPredicates = new HashSet<Node>();
                     ++countQ2;
                     Set<Integer> queries2prunDicJoin = log2Predicates.get(s);
                     for (Integer idQ2 : queries2prunDicJoin) {
-//                         System.out.println("         "+countPred2 + " / " + queries2prunDicJoin.size());
                         ++countPred2;
                         SparqlQueryParser q2 = queries2.getQueryAt(idQ2);
                         String query2 = this.renameVariables(q2.toString(), "log2");
-                        String q = this.concatenate2QueriesService(query1, s, query2, st, sparqlEndpoint2);
+                        String q = null;
+                        if( so.equals("path")){
+                            q = this.concatenate2QueriesService(query1, s, query2, st, sparqlEndpoint2);
+                        }else if(so.equals("star")){
+                            q = this.concatenate2QueriesServiceStar(query1, s, query2, st, sparqlEndpoint2);
+                        }else{
+                            System.out.println("Unknow join type : " + so + " . Use path or star");
+                            return;
+                        }
                         if (q != null) {
                             Query query = QueryFactory.create(q);
                             genQueries.add(query);
@@ -666,38 +672,38 @@ private Set<Node> logsPredicates = new HashSet<Node>();
     }
 
 
-    public void genFedMaximalStar(String sparqlEndpoint1, String sparqlEndpoint2, String genFedFile) throws IOException {
-        fw = new FileWriter(genFedFile);
-        bw = new BufferedWriter(fw);
-        ArrayList<Query> genQueries = new ArrayList<Query>();
-        bw.write("#-------------------------------------------------------\n");
-        for (String s : logPredicatesPrun.keySet()) {
-            Set<Integer> queries1prunDicJoin = log1Predicates.get(s);
-            System.out.println("s = "+s+" / st = "+logPredicatesPrun.get(s).size());
-            for (Integer idQ1 : queries1prunDicJoin) {
-                SparqlQueryParser q1 = queries1.getQueryAt(idQ1);
-                String query1 = this.renameVariables(q1.toString(), "log1");
-                for (String st : logPredicatesPrun.get(s)) {
-                    Set<Integer> queries2prunDicJoin = log2Predicates.get(s);
-                    for (Integer idQ2 : queries2prunDicJoin) {
-                        SparqlQueryParser q2 = queries2.getQueryAt(idQ2);
-                        String query2 = this.renameVariables(q2.toString(), "log2");
-                        String q = this.concatenate2QueriesServiceStar(query1, s, query2, st, sparqlEndpoint2);
-                        if (q != null) {
-                            Query query = QueryFactory.create(q);
-                            genQueries.add(query);
-//                             bw.write("query: "+q);
-                            bw.write(q);
-                            bw.write("\n#-------------------------------------------------------\n");
-                            bw.flush();
-                        }
-                    }
-                }
-            }
-        }
-        bw.flush();
-        System.out.println("genQueries = "+genQueries.size());
-        System.out.println("done.");
-    }
+//     public void genFedMaximalStar(String sparqlEndpoint1, String sparqlEndpoint2, String genFedFile) throws IOException {
+//         fw = new FileWriter(genFedFile);
+//         bw = new BufferedWriter(fw);
+//         ArrayList<Query> genQueries = new ArrayList<Query>();
+//         bw.write("#-------------------------------------------------------\n");
+//         for (String s : logPredicatesPrun.keySet()) {
+//             Set<Integer> queries1prunDicJoin = log1Predicates.get(s);
+//             System.out.println("s = "+s+" / st = "+logPredicatesPrun.get(s).size());
+//             for (Integer idQ1 : queries1prunDicJoin) {
+//                 SparqlQueryParser q1 = queries1.getQueryAt(idQ1);
+//                 String query1 = this.renameVariables(q1.toString(), "log1");
+//                 for (String st : logPredicatesPrun.get(s)) {
+//                     Set<Integer> queries2prunDicJoin = log2Predicates.get(s);
+//                     for (Integer idQ2 : queries2prunDicJoin) {
+//                         SparqlQueryParser q2 = queries2.getQueryAt(idQ2);
+//                         String query2 = this.renameVariables(q2.toString(), "log2");
+//                         String q = this.concatenate2QueriesServiceStar(query1, s, query2, st, sparqlEndpoint2);
+//                         if (q != null) {
+//                             Query query = QueryFactory.create(q);
+//                             genQueries.add(query);
+// //                             bw.write("query: "+q);
+//                             bw.write(q);
+//                             bw.write("\n#-------------------------------------------------------\n");
+//                             bw.flush();
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//         bw.flush();
+//         System.out.println("genQueries = "+genQueries.size());
+//         System.out.println("done.");
+//     }
 }
 
