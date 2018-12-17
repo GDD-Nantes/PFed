@@ -56,7 +56,7 @@ public class TestPrunningF {
         System.out.println();
         System.out.println("----------------------------------------------");
         
-        PLpath.pruningPredicatesLogs(sumFileList, "path", log1PrunFile, log2PrunFile);                                                            
+        PLpath.pruningPredicatesLogs("path");                                                            
 //         PLpath.pruningLog1Predicates(log1PrunFile);                                                                                                     
 //         PLpath.pruningLog2Predicates(log2PrunFile);
         

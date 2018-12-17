@@ -41,6 +41,19 @@ public class MatchingPredicates {
     public MatchingPredicates(ArrayList<String> sumFiles) {
         summaryList1 = new AuthSummary(sumFiles.get(0));
         summaryList2 = new AuthSummary(sumFiles.get(1));
+        generate();
+    }
+    public MatchingPredicates(ArrayList<String> sumFiles, boolean isType) {
+        if(isType){
+            summaryList1 = new TypeSummary(sumFiles.get(0));
+            summaryList2 = new TypeSummary(sumFiles.get(1));
+        }else{
+            summaryList1 = new AuthSummary(sumFiles.get(0));
+            summaryList2 = new AuthSummary(sumFiles.get(1));
+        }
+        generate();
+    }
+    private void generate(){
         matchingTable = new HashMap<String,List<Capability>>();
         for (Capability testMatch : summaryList1.getCapabilities()) {
             for (Capability currCap : summaryList2.getCapabilities()) {
@@ -80,29 +93,28 @@ public class MatchingPredicates {
     
 
     public int testExistingMatch(String predicate1, String predicate2) {
-            List<Capability> joinableWith = matchingTable.get(predicate1);
-            if (joinableWith != null) {
-                if (predicate2.subSequence(0, 1).equals("<")) {
-                    predicate2 = predicate2.substring(1, predicate2.length()-1);
-                }
-                for (Capability testCapa : joinableWith) {
-                    if(testCapa.getPredicate().equals(predicate2)){
-                        if ((testCapa.getSbjAuthority().size() != 0) && (testCapa.getObjAuthority().size() == 0)) {
-                            //There is a Star between predicate1 and predicate2
-                            return 1;
-                        }
-                        else if ((testCapa.getSbjAuthority().size() == 0) && (testCapa.getObjAuthority().size() != 0)) {
-                            //There is a Path between predicate1 and predicate2
-                            return 2;
-                        }
-                        else if ((testCapa.getSbjAuthority().size() != 0) && (testCapa.getObjAuthority().size() != 0)) {
-                             //There is both path and star between predicate1 and predicate2
-                            return 3;  
-                        }
+        List<Capability> joinableWith = matchingTable.get(predicate1);
+        if (joinableWith != null) {
+            if (predicate2.subSequence(0, 1).equals("<")) {
+                predicate2 = predicate2.substring(1, predicate2.length()-1);
+            }
+            for (Capability testCapa : joinableWith) {
+                if(testCapa.getPredicate().equals(predicate2)){
+                    if ((testCapa.getSbjAuthority().size() != 0) && (testCapa.getObjAuthority().size() == 0)) {
+                        //There is a Star between predicate1 and predicate2
+                        return 1;
+                    }
+                    else if ((testCapa.getSbjAuthority().size() == 0) && (testCapa.getObjAuthority().size() != 0)) {
+                        //There is a Path between predicate1 and predicate2
+                        return 2;
+                    }
+                    else if ((testCapa.getSbjAuthority().size() != 0) && (testCapa.getObjAuthority().size() != 0)) {
+                            //There is both path and star between predicate1 and predicate2
+                        return 3;  
                     }
                 }
             }
-//         }
+        }
         return -1;
     }
 

@@ -68,10 +68,21 @@ public class PFed{
             PLpath = new PruningLogs(checkConfig(confA, "logFile"), checkConfig(confB, "logFile"), sumFileList, "nonCypte");
         }
         System.out.println("Prunning non joinable predicates ...");
-        if(isStar){
-            PLpath.pruningPredicatesLogs(sumFileList, "star", "", "");
+        if(!cline.hasOption("t")){
+            if(isStar){
+                PLpath.pruningPredicatesLogs( "star");
+            }else{
+                PLpath.pruningPredicatesLogs("path");
+            }
         }else{
-            PLpath.pruningPredicatesLogs(sumFileList, "path", "", "");
+            ArrayList<String> sumFileListType = new ArrayList<String>();
+            sumFileListType.add(checkConfig(confA, "summaryTypeFile"));
+            sumFileListType.add(checkConfig(confB, "summaryTypeFile"));
+            if(isStar){
+                PLpath.pruningPredicatesLogsType(sumFileListType, "star");
+            }else{
+                PLpath.pruningPredicatesLogsType(sumFileListType, "path");
+            }
         }
         
         String outputDir;
@@ -192,6 +203,11 @@ public class PFed{
                         .longOpt("noExec")
                         .desc("Writes the queries instead of executing them first. Have priorities over execution arguments.")
                         .build();
+        Option withType = Option.builder("t")
+                        .required(false)
+                        .longOpt("withType")
+                        .desc("Also check the types of predicates before joining them.")
+                        .build();
                         
         Options options = new Options();
         options.addOption(confA);
@@ -201,6 +217,7 @@ public class PFed{
         options.addOption(output);
         options.addOption(sage);
         options.addOption(noExec);
+        options.addOption(withType);
         return options;
     }
     //From Splodge
