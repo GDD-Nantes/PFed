@@ -1,9 +1,13 @@
 # PFed
 
-Code for Plausible Federated Queries submitted to ESWC 2019
+Recommending Plausible Federated Queries submitted to ESWC 2019
+
+# Source Code:
+Available in the directory : GenFedQueries
+All instructions for executing the program are available at readme file.
 
 # Summaries Code
-- Hibiscus Code available at: [[genSummarieHibi]]
+- Hibiscus Code available at: [genSummarieHibi]
 
 # DataSets Availability
 
