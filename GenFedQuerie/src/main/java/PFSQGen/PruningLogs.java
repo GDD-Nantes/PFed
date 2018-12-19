@@ -40,6 +40,9 @@ import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.repository.sail.SailRepository;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.sparql.core.Var;
+import org.apache.jena.graph.NodeFactory;
+import org.apache.jena.sparql.syntax.syntaxtransform.QueryTransformOps;
 
 import org.apache.jena.query.QueryException;
 import PFSQGen.MatchingPredicates;
@@ -287,7 +290,7 @@ private Set<Node> logsPredicates = new HashSet<Node>();
         return queriesprun;
     }
     
-    public ArrayList<Node> getPredicates(Query q) {
+    public static ArrayList<Node> getPredicates(Query q) {
         ArrayList<Node> predicates = new ArrayList<Node>();
         //System.out.println("q = "+q);                                                                                                                   
         ElementWalker.walk(q.getQueryPattern(),
@@ -298,7 +301,7 @@ private Set<Node> logsPredicates = new HashSet<Node>();
                     // ...go through all the triples...                                                                                                       
                     Iterator<TriplePath> triples = el.patternElts();
                     while (triples.hasNext()) {
-                        // ...and grab the subject                                                                                                            
+                        // ...and grab the predicate                                                                                                            
                         predicates.add(triples.next().getPredicate());
                     }
                 }
@@ -307,7 +310,87 @@ private Set<Node> logsPredicates = new HashSet<Node>();
 
         return predicates;
     }
-
+    
+    public static Query getPrototype(Query q) {
+        Map<Var,Node> sbj = new HashMap<Var,Node>();
+        Map<String,String> conc = new HashMap<String,String>();                                                                                                     
+        ElementWalker.walk(q.getQueryPattern(),
+                // For each element...                                                                                                                    
+            new ElementVisitorBase() {
+            // ...when it's a block of triples...                                                                                                         
+                public void visit(ElementPathBlock el) {
+                    // ...go through all the triples...                                                                                                       
+                    Iterator<TriplePath> triples = el.patternElts();
+                    while (triples.hasNext()) {
+                        // ...and grab the triple               
+                        TriplePath curr = triples.next();
+                        int nexVal = sbj.size()+conc.size()+1;
+                        Node curS = curr.getSubject();
+                        if(curS.isConcrete()){
+                            conc.putIfAbsent(curS.toString(),"var"+nexVal);
+                        }else{
+                            sbj.putIfAbsent((Var)curS, NodeFactory.createVariable("var"+nexVal));
+                        }
+                        nexVal = sbj.size()+conc.size()+1;
+                        curS = curr.getObject();
+                        if(curS.isConcrete()){
+                            conc.putIfAbsent(curS.toString(),"var"+nexVal);
+                        }else{
+                            sbj.putIfAbsent((Var)curS, NodeFactory.createVariable("var"+nexVal));
+                        }
+                    }
+                }
+            }
+        );
+        Query newQ = QueryTransformOps.transform(q, sbj);
+        newQ.setQueryResultStar(true);
+        Map<String,String> Pref = new HashMap<String,String>();
+        String resQ = "";
+        boolean litOn = false;
+        String curLit = "";
+        // Uses syntaxe from Query, avoiding many potential hiccup with regex
+        for(String m : newQ.toString().split("\n")){
+            if(m.contains("PREFIX")){
+                String[] t = m.split(" ");
+                Pref.put(t[2],t[3].replaceAll("(<|>)",""));
+            
+            }else if(!m.startsWith("FILTER") || !m.startsWith("ORDER")){
+                String newm = "";
+                for(String t : m.split("\\s")){
+                    if(litOn){
+                        curLit+=" "+t;
+                        if(t.contains("\"")){
+                            litOn = false;
+                            t = curLit;
+                        }
+                    }else if(t.startsWith("\"") && !t.matches("(\".*){2}")){
+                        litOn = true;
+                        curLit = t;
+                    }
+                    if(!litOn){
+                        for(String pre : Pref.keySet()){
+                            if(t.startsWith(pre)){
+                                if(conc.containsKey(t.replace(pre,Pref.get(pre)))){
+                                    t = "?" + conc.get(t.replace(pre,Pref.get(pre)));
+                                }
+                                break;
+                            }                        
+                        }
+                        if(conc.containsKey(t.replaceAll("(<|>)",""))){
+                            t = "?" + conc.get(t.replaceAll("(<|>)",""));
+                        }
+                        newm += " "+t;
+                    }
+                }
+                m = newm;
+            
+            }
+            resQ += m +"\n";
+            
+        }
+        return QueryFactory.create(resQ);
+    }
+    
     public String[] addElementAtIndice(String[] tab, String element, int indice) {
         String[] tabTemp = new String[tab.length + 1];
         for (int i = 0; i < indice; i++) {
@@ -548,7 +631,7 @@ private Set<Node> logsPredicates = new HashSet<Node>();
                         if (q != null) {
                             Query query = QueryFactory.create(q);
                             genQueries.add(query);
-                            bw.write("query: "+q);
+                            bw.write("query: "+query.toString());
                             bw.write("\n#-------------------------------------------------------\n");
                             bw.flush();
                         }
@@ -670,40 +753,5 @@ private Set<Node> logsPredicates = new HashSet<Node>();
             return null;
         }
     }
-
-
-//     public void genFedMaximalStar(String sparqlEndpoint1, String sparqlEndpoint2, String genFedFile) throws IOException {
-//         fw = new FileWriter(genFedFile);
-//         bw = new BufferedWriter(fw);
-//         ArrayList<Query> genQueries = new ArrayList<Query>();
-//         bw.write("#-------------------------------------------------------\n");
-//         for (String s : logPredicatesPrun.keySet()) {
-//             Set<Integer> queries1prunDicJoin = log1Predicates.get(s);
-//             System.out.println("s = "+s+" / st = "+logPredicatesPrun.get(s).size());
-//             for (Integer idQ1 : queries1prunDicJoin) {
-//                 SparqlQueryParser q1 = queries1.getQueryAt(idQ1);
-//                 String query1 = this.renameVariables(q1.toString(), "log1");
-//                 for (String st : logPredicatesPrun.get(s)) {
-//                     Set<Integer> queries2prunDicJoin = log2Predicates.get(s);
-//                     for (Integer idQ2 : queries2prunDicJoin) {
-//                         SparqlQueryParser q2 = queries2.getQueryAt(idQ2);
-//                         String query2 = this.renameVariables(q2.toString(), "log2");
-//                         String q = this.concatenate2QueriesServiceStar(query1, s, query2, st, sparqlEndpoint2);
-//                         if (q != null) {
-//                             Query query = QueryFactory.create(q);
-//                             genQueries.add(query);
-// //                             bw.write("query: "+q);
-//                             bw.write(q);
-//                             bw.write("\n#-------------------------------------------------------\n");
-//                             bw.flush();
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//         bw.flush();
-//         System.out.println("genQueries = "+genQueries.size());
-//         System.out.println("done.");
-//     }
 }
 
