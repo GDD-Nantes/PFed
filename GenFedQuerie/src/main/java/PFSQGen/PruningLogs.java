@@ -19,6 +19,9 @@ import org.apache.jena.sparql.syntax.ElementVisitorBase;
 import org.apache.jena.sparql.syntax.ElementWalker;
 import org.openrdf.query.MalformedQueryException;
 import org.openrdf.query.QueryEvaluationException;
+import org.apache.jena.sparql.core.Var;
+import org.apache.jena.graph.NodeFactory;
+import org.apache.jena.sparql.syntax.syntaxtransform.QueryTransformOps;
 
 import org.apache.jena.query.QueryException;
 import PFSQGen.MatchingPredicates;
@@ -346,19 +349,51 @@ public class PruningLogs {
     }
     
     public String renameVariables(String query, String suffix) {
-        String q = "";
-        String[] table = query.split("[\\s\\xA0]+");
-        for (int i = 0; i < table.length; i++) {//System.out.println("--"+i+"  "+table.toString());
-            if (table[i].length() > 1) {
-                if (table[i].substring(0,1).equals("?")) {
-                    table[i] = table[i]+"_"+suffix;
+//         String q = "";
+//         String[] table = query.split("[\\s\\xA0]+");
+//         for (int i = 0; i < table.length; i++) {//System.out.println("--"+i+"  "+table.toString());
+//             if (table[i].length() > 1) {
+//                 if (table[i].substring(0,1).equals("?")) {
+//                     table[i] = table[i]+"_"+suffix;
+//                 }
+//             }
+//         }
+//         for (int j = 0; j < table.length; j++) {
+//             q = q + table[j] + " ";
+//         }
+        Query q = QueryFactory.create(query);
+        Map<Var,Node> allVar = new HashMap<Var,Node>();                                                                                                    
+        ElementWalker.walk(q.getQueryPattern(),
+                // For each element...                                                                                                                    
+            new ElementVisitorBase() {
+            // ...when it's a block of triples...                                                                                                         
+                public void visit(ElementPathBlock el) {
+                    // ...go through all the triples...                                                                                                       
+                    Iterator<TriplePath> triples = el.patternElts();
+                    while (triples.hasNext()) {
+                        // ...and grab the triple               
+                        TriplePath curr = triples.next();
+                        int nextVal = allVar.size()+1;
+                        Node curS = curr.getSubject();
+                        if(!curS.isConcrete()){
+                            allVar.putIfAbsent((Var)curS, NodeFactory.createVariable("val"+nextVal + suffix));
+                        }
+                        nextVal = allVar.size()+1;
+                        curS = curr.getObject();
+                        if(!curS.isConcrete()){
+                            allVar.putIfAbsent((Var)curS, NodeFactory.createVariable("val"+nextVal + suffix));
+                        }
+                        nextVal = allVar.size()+1;
+                        curS = curr.getPredicate();
+                        if(curS!=null && !curS.isConcrete()){
+                            allVar.putIfAbsent((Var)curS, NodeFactory.createVariable("val"+nextVal + suffix));
+                        }
+                    }
                 }
             }
-        }
-        for (int j = 0; j < table.length; j++) {
-            q = q + table[j] + " ";
-        }
-        return q;
+        );
+        Query newQ = QueryTransformOps.transform(q, allVar);
+        return newQ.toString();
     }
     //-----------MAX PATH-------
     public String concatenate2QueriesService(String query1, String predicate1Join, String query2, String predicate2Join, String sparqlEndpoint) {
@@ -504,11 +539,15 @@ public class PruningLogs {
                             return;
                         }
                         if (q != null) {
-                            Query query = QueryFactory.create(q);
-                            genQueries.add(query);
-                            bw.write("query: "+query.toString());
-                            bw.write("\n#-------------------------------------------------------\n");
-                            bw.flush();
+                            try{
+                                Query query = QueryFactory.create(q);
+                                genQueries.add(query);
+                                bw.write("query: "+query.toString());
+                                bw.write("\n#-------------------------------------------------------\n");
+                                bw.flush();
+                            }catch(Exception e){
+                                System.out.println("Malformed federated query :" + e+"\n Query:" + q);
+                            }
                         }
                     }
                     countPred2 = 0;
@@ -597,9 +636,6 @@ public class PruningLogs {
             prefixes = prefixes + table2[l] + " ";
         }
         q = q + prefixes;
-        System.out.println(query1);
-        System.out.println(query2);
-        System.out.println(predicate1Join);
         for (int j = 0; j < newtable.length; j++) {
             q = q + newtable[j] + " ";
         }
