@@ -1,48 +1,24 @@
 package PFSQGen;
 
-import org.openrdf.query.QueryLanguage;
-import org.openrdf.query.TupleQuery;
-import org.openrdf.query.TupleQueryResult;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.sail.SailRepository;
-import com.fluidops.fedx.Config;
-import com.fluidops.fedx.FedXFactory;
-import com.fluidops.fedx.exception.FedXException;
-import com.fluidops.fedx.FedXFactory;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.Map;
 import org.apache.jena.graph.Node;
 import org.apache.jena.query.ARQ;
-import org.apache.jena.query.Dataset;
 import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.ResultSet;
 import org.apache.jena.sparql.core.TriplePath;
 import org.apache.jena.sparql.syntax.ElementPathBlock;
 import org.apache.jena.sparql.syntax.ElementVisitorBase;
 import org.apache.jena.sparql.syntax.ElementWalker;
 import org.openrdf.query.MalformedQueryException;
 import org.openrdf.query.QueryEvaluationException;
-import org.openrdf.repository.sail.SailRepository;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.sparql.core.Var;
-import org.apache.jena.graph.NodeFactory;
-import org.apache.jena.sparql.syntax.syntaxtransform.QueryTransformOps;
 
 import org.apache.jena.query.QueryException;
 import PFSQGen.MatchingPredicates;
@@ -55,30 +31,9 @@ import PFSQGen.SparqlQueryParser;
 public class PruningLogs {
     private Queries queries1;
     private Queries queries2;
-//     Queries queries1SELECT = new Queries();
-//     Queries queries2SELECT = new Queries();
-    ArrayList<SparqlQueryParser> queries1prunPath = new ArrayList<SparqlQueryParser>();
-    ArrayList<SparqlQueryParser> queries1prunStar = new ArrayList<SparqlQueryParser>();
-    ArrayList<SparqlQueryParser> queries2prunPath = new ArrayList<SparqlQueryParser>();
-    ArrayList<SparqlQueryParser> queries2prunStar = new ArrayList<SparqlQueryParser>();
-    ArrayList<SparqlQueryParser> queries2prun = new ArrayList<SparqlQueryParser>();
     private MatchingPredicates matcher;
-    private ArrayList<Node> listPredicatesLog1Path = new ArrayList<Node>();
-    private ArrayList<Node> listPredicatesLog1Star = new ArrayList<Node>();
-    private ArrayList<Node> listPredicatesLog2 = new ArrayList<Node>();
-    private ArrayList<Node> listPredicatesLog2Path = new ArrayList<Node>();
-    private ArrayList<Node> listPredicatesLog2Star = new ArrayList<Node>();
-    HashMap<String, HashSet<String>> dicJoinPath;
-    HashMap<String, HashSet<String>> dicJoinStar;
-    private SailRepository repo;
     private ArrayList<String> genFedMinimalPath = new ArrayList<String>();
     private ArrayList<String> genFedMinimalStar = new ArrayList<String>();
-    private ArrayList<Query> genFedMinimalHybrid = new ArrayList<Query>();
-    private ArrayList<Query> genFedLightPath = new ArrayList<Query>();
-    private ArrayList<Query> genFedLight1 = new ArrayList<Query>();
-    private ArrayList<Query> genFedLight2 = new ArrayList<Query>();
-    private ArrayList<Query> genFedMaximal = new ArrayList<Query>();
-private Set<Node> logsPredicates = new HashSet<Node>();
 
     private Map<String,Set<Integer>> log1Predicates = new HashMap<String,Set<Integer>>();
     private Map<String,Set<Integer>> log2Predicates = new HashMap<String,Set<Integer>>();
@@ -114,10 +69,10 @@ private Set<Node> logsPredicates = new HashSet<Node>();
             Query query1 = QueryFactory.create(queries1.getQueries().get(i).getQueryString());
             if (query1 != null) {
                 ArrayList<Node> qPredicates = this.getPredicates(query1);
-                HashSet<Integer> temp = new HashSet<Integer>();
-                temp.add(i);
                 for(Node pred : qPredicates){
                     if ((pred != null) && (!pred.toString().substring(0, 1).equals("?"))) {
+                        HashSet<Integer> temp = new HashSet<Integer>();
+                        temp.add(i);
                         if(log1Predicates.putIfAbsent(pred.toString(), temp) != null)
                             log1Predicates.get(pred.toString()).add(i);
                     }
@@ -129,10 +84,10 @@ private Set<Node> logsPredicates = new HashSet<Node>();
             Query query1 = QueryFactory.create(queries2.getQueries().get(i).getQueryString());
             if (query1 != null) {
                 ArrayList<Node> qPredicates = this.getPredicates(query1);
-                HashSet<Integer> temp = new HashSet<Integer>();
-                temp.add(i);
                 for(Node pred : qPredicates){
                     if ((pred != null) && (!pred.toString().substring(0, 1).equals("?"))) {
+                        HashSet<Integer> temp = new HashSet<Integer>();
+                        temp.add(i);
                         if(pred != null && log2Predicates.putIfAbsent(pred.toString(), temp) != null)
                             log2Predicates.get(pred.toString()).add(i);
                     }
@@ -160,7 +115,7 @@ private Set<Node> logsPredicates = new HashSet<Node>();
     }  
     
     public void genFedMinimalPathService(String sparqlEndpoint1, String sparqlEndpoint2, String genFedFile) throws MalformedQueryException, QueryEvaluationException, Exception {
-        dicJoinPath = new HashMap<String, HashSet<String>>();
+//         dicJoinPath = new HashMap<String, HashSet<String>>();
         int cnt = 0;
         int countLarge = 0;
         int countSmall=0;
@@ -212,7 +167,7 @@ private Set<Node> logsPredicates = new HashSet<Node>();
     }
  
     public void genFedMinimalStarService(String sparqlEndpoint1, String sparqlEndpoint2, String genFedFile) throws MalformedQueryException, QueryEvaluationException, Exception {
-        dicJoinStar = new HashMap<String, HashSet<String>>();
+//         dicJoinStar = new HashMap<String, HashSet<String>>();
         int cnt = 0;
         int countLarge = 0;
         int countSmall=0;
@@ -309,86 +264,6 @@ private Set<Node> logsPredicates = new HashSet<Node>();
         );
 
         return predicates;
-    }
-    
-    public static Query getPrototype(Query q) {
-        Map<Var,Node> sbj = new HashMap<Var,Node>();
-        Map<String,String> conc = new HashMap<String,String>();                                                                                                     
-        ElementWalker.walk(q.getQueryPattern(),
-                // For each element...                                                                                                                    
-            new ElementVisitorBase() {
-            // ...when it's a block of triples...                                                                                                         
-                public void visit(ElementPathBlock el) {
-                    // ...go through all the triples...                                                                                                       
-                    Iterator<TriplePath> triples = el.patternElts();
-                    while (triples.hasNext()) {
-                        // ...and grab the triple               
-                        TriplePath curr = triples.next();
-                        int nexVal = sbj.size()+conc.size()+1;
-                        Node curS = curr.getSubject();
-                        if(curS.isConcrete()){
-                            conc.putIfAbsent(curS.toString(),"var"+nexVal);
-                        }else{
-                            sbj.putIfAbsent((Var)curS, NodeFactory.createVariable("var"+nexVal));
-                        }
-                        nexVal = sbj.size()+conc.size()+1;
-                        curS = curr.getObject();
-                        if(curS.isConcrete()){
-                            conc.putIfAbsent(curS.toString(),"var"+nexVal);
-                        }else{
-                            sbj.putIfAbsent((Var)curS, NodeFactory.createVariable("var"+nexVal));
-                        }
-                    }
-                }
-            }
-        );
-        Query newQ = QueryTransformOps.transform(q, sbj);
-        newQ.setQueryResultStar(true);
-        Map<String,String> Pref = new HashMap<String,String>();
-        String resQ = "";
-        boolean litOn = false;
-        String curLit = "";
-        // Uses syntaxe from Query, avoiding many potential hiccup with regex
-        for(String m : newQ.toString().split("\n")){
-            if(m.contains("PREFIX")){
-                String[] t = m.split(" ");
-                Pref.put(t[2],t[3].replaceAll("(<|>)",""));
-            
-            }else if(!m.startsWith("FILTER") || !m.startsWith("ORDER")){
-                String newm = "";
-                for(String t : m.split("\\s")){
-                    if(litOn){
-                        curLit+=" "+t;
-                        if(t.contains("\"")){
-                            litOn = false;
-                            t = curLit;
-                        }
-                    }else if(t.startsWith("\"") && !t.matches("(\".*){2}")){
-                        litOn = true;
-                        curLit = t;
-                    }
-                    if(!litOn){
-                        for(String pre : Pref.keySet()){
-                            if(t.startsWith(pre)){
-                                if(conc.containsKey(t.replace(pre,Pref.get(pre)))){
-                                    t = "?" + conc.get(t.replace(pre,Pref.get(pre)));
-                                }
-                                break;
-                            }                        
-                        }
-                        if(conc.containsKey(t.replaceAll("(<|>)",""))){
-                            t = "?" + conc.get(t.replaceAll("(<|>)",""));
-                        }
-                        newm += " "+t;
-                    }
-                }
-                m = newm;
-            
-            }
-            resQ += m +"\n";
-            
-        }
-        return QueryFactory.create(resQ);
     }
     
     public String[] addElementAtIndice(String[] tab, String element, int indice) {
@@ -614,7 +489,7 @@ private Set<Node> logsPredicates = new HashSet<Node>();
                 for (String st : logPredicatesPrun.get(s)) {
                     System.out.println("      "+countQ2 + " / " + logPredicatesPrun.get(s).size());
                     ++countQ2;
-                    Set<Integer> queries2prunDicJoin = log2Predicates.get(s);
+                    Set<Integer> queries2prunDicJoin = log2Predicates.get(st);
                     for (Integer idQ2 : queries2prunDicJoin) {
                         ++countPred2;
                         SparqlQueryParser q2 = queries2.getQueryAt(idQ2);
@@ -722,6 +597,9 @@ private Set<Node> logsPredicates = new HashSet<Node>();
             prefixes = prefixes + table2[l] + " ";
         }
         q = q + prefixes;
+        System.out.println(query1);
+        System.out.println(query2);
+        System.out.println(predicate1Join);
         for (int j = 0; j < newtable.length; j++) {
             q = q + newtable[j] + " ";
         }

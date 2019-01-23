@@ -1,0 +1,138 @@
+#-------------------------------------------------------
+PREFIX  dc:   <http://purl.org/dc/elements/1.1/>
+PREFIX  :     <http://dbpedia.org/resource/>
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  dbpedia2: <http://dbpedia.org/property/>
+PREFIX  foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX  owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX  xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX  dbpedia: <http://dbpedia.org/>
+PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT  ?name ?com
+WHERE
+  { ?x skos:subject <http://dbpedia.org/resource/Category:Sport_in_Paris> .
+    ?x rdfs:comment ?com .
+    ?x rdfs:label ?name
+    FILTER ( lang(?com) = "en" )
+  }
+LIMIT   3
+#-------------------------------------------------------
+PREFIX  dc:   <http://purl.org/dc/elements/1.1/>
+PREFIX  :     <http://dbpedia.org/resource/>
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  dbpedia2: <http://dbpedia.org/property/>
+PREFIX  foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX  owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX  xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX  dbpedia: <http://dbpedia.org/>
+PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT  ?name ?actor
+WHERE
+  { ?actor skos:subject <http://dbpedia.org/resource/Category:Belgian_film_actors> .
+    ?actor foaf:name ?name
+  }
+  
+#-------------------------------------------------------
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  dbprop: <http://dbpedia.org/property/>
+PREFIX  xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+SELECT  ?prop ?object
+WHERE
+  { ?person rdfs:label "George Washington"@en .
+    ?person dbprop:presidentStart ?start .
+    ?person ?prop ?object
+    FILTER ( xsd:integer(?start) = xsd:integer(?object) )
+  }
+  
+#-------------------------------------------------------
+PREFIX  dc:   <http://purl.org/dc/elements/1.1/>
+PREFIX  :     <http://dbpedia.org/resource/>
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  dbpedia2: <http://dbpedia.org/property/>
+PREFIX  foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX  dbo:  <http://dbpedia.org/ontology/>
+PREFIX  owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX  xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX  dbpedia: <http://dbpedia.org/>
+PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT  ?actors
+WHERE
+  { ?actors skos:subject <http://dbpedia.org/resource/Category:Spanish_film_actors> .
+    ?actors dbo:birthDate ?birth
+    FILTER ( ?birth > "1930-01-01"^^xsd:date )
+  }
+  
+#-------------------------------------------------------
+PREFIX  dc:   <http://purl.org/dc/elements/1.1/>
+PREFIX  kegg: <http://bio2rdf.org/ns/kegg#>
+PREFIX  foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX  vocabulary: <http://sparq.local/rdf/schema/vocabulary#>
+PREFIX  dcmitype: <http://purl.org/dc/dcmitype/>
+PREFIX  drupal: <http://sparq.local/rdf/schema/>
+PREFIX  sc:   <http://sw.neurocommons.org/2007/sciencecommons#>
+PREFIX  dcterms: <http://purl.org/dc/terms/>
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  node: <http://sparq.local/rdf/schema/node#>
+PREFIX  term: <http://sparq.local/rdf/schema/term#>
+PREFIX  path: <http://sparq.local/rdf/schema/path#>
+PREFIX  owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX  xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX  rs:   <http://www.w3.org/2005/sparql-results#>
+PREFIX  rss:  <http://purl.org/rss/1.0/>
+PREFIX  bio2rdf: <http://bio2rdf.org/ns/bio2rdf#>
+PREFIX  comment: <http://sparq.local/rdf/schema/comment#>
+PREFIX  user: <http://sparq.local/rdf/schema/user#>
+PREFIX  variable: <http://sparq.local/rdf/schema/variable#>
+PREFIX  xsi:  <http://www.w3.org/2001/XMLSchema-instance#>
+
+SELECT DISTINCT  ?p
+WHERE
+  { ?s0 ?p ?o
+    { SELECT DISTINCT  ?s0
+      WHERE
+        { { ?s0 rdf:type <http://dbpedia.org/ontology/Species> } }
+    }
+  }
+ORDER BY ?p
+
+#-------------------------------------------------------
+PREFIX  dc:   <http://purl.org/dc/elements/1.1/>
+PREFIX  :     <http://dbpedia.org/resource/>
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  dbpedia2: <http://dbpedia.org/property/>
+PREFIX  foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX  dbo:  <http://dbpedia.org/ontology/>
+PREFIX  owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX  xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX  dbpedia: <http://dbpedia.org/>
+PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT DISTINCT  ?player ?name ?birth ?death
+WHERE
+  { ?s foaf:page ?player .
+    ?s foaf:name ?name .
+    ?s dbo:birthDate ?birth .
+    ?s dbo:deathDate ?death .
+    ?s rdf:type dbo:SoccerPlayer .
+    ?s dbpedia2:position ?position .
+    ?s dbpedia2:clubs ?club .
+    ?club dbo:capacity ?cap .
+    ?s dbo:birthPlace ?place .
+    ?place ?population ?pop
+    OPTIONAL
+      { ?s dbo:number ?tricot }
+    FILTER ( ?population IN (dbpedia2:populationEstimate, dbpedia2:populationCensus, dbpedia2:statPop) )
+    FILTER ( xsd:int(?pop) > 10000000 )
+    FILTER ( xsd:int(?cap) < 40000 )
+    FILTER ( ( ( ?position = "Striker"@en ) || ( ?position = <http://dbpedia.org/resource/Goalkeeper_%28association_football%29> ) ) || ( ?position = <http://dbpedia.org/resource/Goalkeeper_%28football%29> ) )
+  }
+LIMIT   1000

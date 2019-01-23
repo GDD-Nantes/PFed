@@ -1,0 +1,69 @@
+#-------------------------------------------------------
+PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX  bibo: <http://purl.org/ontology/bibo/>
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX  swrcext: <http://www.cs.vu.nl/~mcaklein/onto/swrc_ext/2005/05#>
+
+SELECT DISTINCT  ?pred ?author_url ?author_name ?author_pref_label
+WHERE
+  { GRAPH ?graph
+      {   { <http://data.semanticweb.org/conference/iswc/2004/proceedings/paper-50> bibo:authorList ?authorList }
+        UNION
+          { <http://data.semanticweb.org/conference/iswc/2004/proceedings/paper-50> swrcext:authorList ?authorList }
+        ?authorList ?pred ?author_url
+          { ?author_url foaf:name ?author_name }
+        UNION
+          { ?author_url rdfs:label ?author_name }
+        OPTIONAL
+          { ?author_url skos:prefLabel ?author_pref_label }
+      }
+  }
+ORDER BY ?pred
+
+#-------------------------------------------------------
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  swrc: <http://swrc.ontoware.org/ontology#>
+PREFIX  foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX  swc:  <http://data.semanticweb.org/ns/swc/ontology#>
+PREFIX  dc:   <http://purl.org/dc/elements/1.1/>
+
+SELECT DISTINCT  ?abstract ?keyword ?author_name
+WHERE
+  {   { <http://data.semanticweb.org/conference/rr/2011/short/267> swrc:author ?author }
+    UNION
+      { <http://data.semanticweb.org/conference/rr/2011/short/267> foaf:maker ?author }
+    ?author foaf:name ?author_name
+    OPTIONAL
+      { <http://data.semanticweb.org/conference/rr/2011/short/267> swrc:abstract ?abstract }
+    OPTIONAL
+      {   { <http://data.semanticweb.org/conference/rr/2011/short/267> swrc:keywords ?keyword }
+        UNION
+          { <http://data.semanticweb.org/conference/rr/2011/short/267> dc:subject ?keyword }
+        UNION
+          { <http://data.semanticweb.org/conference/rr/2011/short/267> swc:hasTopic ?topic .
+            ?topic rdfs:label ?keyword
+          }
+      }
+  }
+  
+#-------------------------------------------------------
+SELECT  (count(*) AS ?sparql1_1)
+WHERE
+  { SELECT  *
+    WHERE
+      { ?s ?p ?o }
+    LIMIT   1
+  }
+  
+#-------------------------------------------------------
+PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT  ?x
+WHERE
+  { { SELECT  *
+      WHERE
+        { ?x rdf:type ?y }
+    }
+  }
+LIMIT   100
