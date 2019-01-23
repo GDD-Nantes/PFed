@@ -349,18 +349,6 @@ public class PruningLogs {
     }
     
     public String renameVariables(String query, String suffix) {
-//         String q = "";
-//         String[] table = query.split("[\\s\\xA0]+");
-//         for (int i = 0; i < table.length; i++) {//System.out.println("--"+i+"  "+table.toString());
-//             if (table[i].length() > 1) {
-//                 if (table[i].substring(0,1).equals("?")) {
-//                     table[i] = table[i]+"_"+suffix;
-//                 }
-//             }
-//         }
-//         for (int j = 0; j < table.length; j++) {
-//             q = q + table[j] + " ";
-//         }
         Query q = QueryFactory.create(query);
         Map<Var,Node> allVar = new HashMap<Var,Node>();                                                                                                    
         ElementWalker.walk(q.getQueryPattern(),
@@ -393,6 +381,7 @@ public class PruningLogs {
             }
         );
         Query newQ = QueryTransformOps.transform(q, allVar);
+        newQ.setQueryResultStar(true);
         return newQ.toString();
     }
     //-----------MAX PATH-------
