@@ -8,6 +8,7 @@ import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.sparql.engine.http.QueryEngineHTTP;
+import org.apache.jena.query.ARQ;
 
 import java.util.ArrayList;
 import java.lang.NumberFormatException;
@@ -31,6 +32,7 @@ public class TestCleanQuerySet {
             System.out.println("TestCleanQuerySet EndpointURL PathToQuery Start");
             return;
         }
+        ARQ.init();
         int startFrom = 0;
         try{
             startFrom = Integer.parseInt(args[2]);
@@ -57,7 +59,7 @@ public class TestCleanQuerySet {
                 ++total;
                 try{
                     if (executor.hasResult(q.toString(), endpoint)) {
-                        byte res[] = new String(startQ + q + System.getProperty("line.separator")).getBytes();
+                        byte res[] = new String(startQ + QueryFactory.create(q.toString()).toString() + System.getProperty("line.separator")).getBytes();
                         try{
                             Files.write(output, res,StandardOpenOption.CREATE, StandardOpenOption.APPEND);
                         }catch (IOException e){
