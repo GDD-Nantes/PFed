@@ -17,8 +17,8 @@ import org.apache.jena.sparql.core.TriplePath;
 import org.apache.jena.sparql.syntax.ElementPathBlock;
 import org.apache.jena.sparql.syntax.ElementVisitorBase;
 import org.apache.jena.sparql.syntax.ElementWalker;
-import org.openrdf.query.MalformedQueryException;
-import org.openrdf.query.QueryEvaluationException;
+// import org.openrdf.query.MalformedQueryException;
+// import org.openrdf.query.QueryEvaluationException;
 import org.apache.jena.sparql.core.Var;
 import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.sparql.syntax.syntaxtransform.QueryTransformOps;
@@ -117,7 +117,7 @@ public class PruningLogs {
         executor = exec;
     }  
     
-    public void genFedMinimalPathService(String sparqlEndpoint1, String sparqlEndpoint2, String genFedFile) throws MalformedQueryException, QueryEvaluationException, Exception {
+    public void genFedMinimalPathService(String sparqlEndpoint1, String sparqlEndpoint2, String genFedFile) throws Exception {
 //         dicJoinPath = new HashMap<String, HashSet<String>>();
         int cnt = 0;
         int countLarge = 0;
@@ -169,7 +169,7 @@ public class PruningLogs {
         System.out.println("write done ...");
     }
  
-    public void genFedMinimalStarService(String sparqlEndpoint1, String sparqlEndpoint2, String genFedFile) throws MalformedQueryException, QueryEvaluationException, Exception {
+    public void genFedMinimalStarService(String sparqlEndpoint1, String sparqlEndpoint2, String genFedFile) throws Exception {
 //         dicJoinStar = new HashMap<String, HashSet<String>>();
         int cnt = 0;
         int countLarge = 0;

@@ -165,9 +165,9 @@ public class TypeSummary extends Summary{
             return;
         }
         ExecutionStrategy exec;
-        if(args[3].equals("sage")){
+        /*if(args[3].equals("sage")){
             exec = new SageExecution();
-        }else if(args[3].equals("fuseki")){
+        }else */if(args[3].equals("fuseki")){
             exec = new FusekiExecution();
         }else{
             System.out.println("Unknown endpoint type : " + args[3]);

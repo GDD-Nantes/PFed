@@ -95,8 +95,8 @@ public class PFed{
             outputDir = "results/";
         }
         
-        if(cline.hasOption("sage"))
-            PLpath.setExecutor(new SageExecution());
+//         if(cline.hasOption("sage"))
+//             PLpath.setExecutor(new SageExecution());
         
         if(cline.hasOption("noExec"))
             PLpath.setExecutor(new SaveExecution(outputDir+"unexecutedQueries.txt"));
@@ -193,11 +193,11 @@ public class PFed{
                         .desc("Output folder for queries generated. Defaults to results at the root of the project.")
                         .hasArg()
                         .build();
-        Option sage = Option.builder("sage")
-                        .required(false)
-                        .longOpt("sage")
-                        .desc("Uses Sage client instead of Fuseki to execute queries.")
-                        .build();
+//         Option sage = Option.builder("sage")
+//                         .required(false)
+//                         .longOpt("sage")
+//                         .desc("Uses Sage client instead of Fuseki to execute queries.")
+//                         .build();
         Option noExec = Option.builder("noExec")
                         .required(false)
                         .longOpt("noExec")
@@ -215,7 +215,7 @@ public class PFed{
         options.addOption(genChoice);
         options.addOption(max);
         options.addOption(output);
-        options.addOption(sage);
+//         options.addOption(sage);
         options.addOption(noExec);
         options.addOption(withType);
         return options;
