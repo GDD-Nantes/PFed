@@ -21,6 +21,10 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.query.ARQ;
 
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  *
@@ -117,23 +121,45 @@ public class TypeSummary extends Summary{
                 }
             }
         }
-        TypeSummary.generateSummary(endpoint, "/tmp/listpred.txt", outputFile, exec);
+//         TypeSummary.generateSummary(endpoint, "/tmp/listpred.txt", outputFile, exec);
     }
-    public static void generateSummary(String endpoint, String inputFile, String outputFile, ExecutionStrategy exec) throws IOException {
+    public static void generateSummary(String currAuth, String endpoint, String inputFile, String outputFile, ExecutionStrategy exec, Summary authSum) throws IOException {
         ARQ.init();
+        Map<String,String> authToSrc = new HashMap<>();
+        authToSrc.put("http://data.semanticweb.org","http://172.16.9.3:3030/swdf/sparql");
+        authToSrc.put("http://dbpedia.org","http://172.16.9.3:3030/dbpedia/sparql");
+        
+        Set<RDFNode> result = new HashSet<>();
         BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
-        String sCurrentLine;
+        String sCurrentLine,q;
         BufferedReader br = new BufferedReader(new FileReader(inputFile));
         while ((sCurrentLine = br.readLine()) != null) {
-            System.out.println("Generating Subject types for predicate : "+ sCurrentLine);
-            String q = "SELECT DISTINCT ?type WHERE { "
-                    + "?s <"+sCurrentLine+"> ?o . "
-                    + "FILTER (isURI(?s) ) \n"
-                    + " ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?type  } ";
-            List<RDFNode> result = exec.execute1Field(q,endpoint,"type");
+            String currPred = sCurrentLine.toString();
+            System.out.println("Generating Subject types for predicate : "+ currPred);
+            result.clear();
+            for(String auth : authSum.getSbjSet(currPred) ){
+                if(auth.equals(currAuth)){
+                    q = "SELECT DISTINCT ?type WHERE { "
+                            + "?s <"+currPred+"> ?o . "
+                            + "FILTER (isURI(?s) ) \n"
+                            + " ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?type  } ";
+                    result.addAll(exec.execute1Field(q,endpoint,"type"));                
+                }else {
+                if(authToSrc.containsKey(auth)){
+                System.out.println(auth);
+                    q = "SELECT DISTINCT ?type WHERE { "
+                            + "?s <"+currPred+"> ?o . "
+                            + "FILTER (isURI(?s) ) \n"
+                            + "FILTER (regex(STR(?s), '"+auth+"'))"
+                            + "SERVICE <"+authToSrc.get(auth)+"> {"
+                            + " ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?type  }} ";
+                    result.addAll(exec.execute1Field(q,endpoint,"type"));
+                    }
+                }
+            }
             bw.write("capability\n");
             bw.write("[\n");
-            bw.write("predicate: "+sCurrentLine.toString());
+            bw.write("predicate: "+currPred);
             if(result.size()>0){
                 bw.write("\nSubject Classes: ");
                 for ( RDFNode x : result ){
@@ -141,12 +167,26 @@ public class TypeSummary extends Summary{
                         bw.write(x+", ");
                 }
             }
-            System.out.println("Generating Object types for predicate : "+ sCurrentLine);
-            q = "SELECT DISTINCT ?type WHERE { "
-                    + "?s <"+sCurrentLine+"> ?o . "
-                    + "FILTER (isURI(?s) ) \n"
-                    + " ?o <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?type  } ";
-            result = exec.execute1Field(q,endpoint,"type");
+            System.out.println("Generating Object types for predicate : "+ currPred);
+            result.clear();
+            for(String auth : authSum.getObjSet(currPred) ){
+                if(auth.equals(currAuth)){
+                    q = "SELECT DISTINCT ?type WHERE { "
+                            + "?s <"+currPred+"> ?o . "
+                            + "FILTER (isURI(?o) ) \n"
+                            + " ?o <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?type  } ";
+                    result.addAll(exec.execute1Field(q,endpoint,"type"));                
+                }else 
+                if(authToSrc.containsKey(auth)){
+                    q = "SELECT DISTINCT ?type WHERE { "
+                            + "?s <"+currPred+"> ?o . "
+                            + "FILTER (isURI(?o) ) \n"
+                            + "FILTER (regex(STR(?o), '"+auth+"'))"
+                            + "SERVICE <"+authToSrc.get(auth)+"> {"
+                            + " ?o <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?type  }} ";
+                    result.addAll(exec.execute1Field(q,endpoint,"type"));        
+                }
+            }
             if(result.size() > 0){
             bw.write("\nObject Classes: ");
                 for ( RDFNode x : result ){
@@ -159,8 +199,8 @@ public class TypeSummary extends Summary{
         bw.close();
     }
     public static void main(String[] args) throws Exception{
-        if(args.length != 4){
-            System.out.println("Need 3 arguments. Usage TypeSummary endpointURL PredicateFile OutputFile EndpointType");
+        if(args.length != 6){
+            System.out.println("Need 6 arguments. Usage TypeSummary endpointURL PredicateFile OutputFile EndpointType AuthSummaryFile authorityEndpoint");
             System.out.println("EndpointType can be sage or fuseki");
             return;
         }
@@ -174,7 +214,7 @@ public class TypeSummary extends Summary{
             System.out.println("Use sage or fuseki");
             return;
         }
-        TypeSummary.generateSummary(args[0], args[1], args[2], exec);
+        TypeSummary.generateSummary(args[5], args[0], args[1], args[2], exec, new AuthSummary(args[4]));
     }
 }
 

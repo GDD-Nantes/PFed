@@ -15,6 +15,7 @@ public class MatchingPredicates {
     private Summary summaryList1;
     private Summary summaryList2;
     private Map<String,List<Capability>> matchingTable;
+    private boolean isType;
     
     //---------------Slow and static-------------------
     public List<String> getSubjAuthority(String predicate, String sumFile) {
@@ -37,13 +38,8 @@ public class MatchingPredicates {
         }
         return null;
     }
-
-    public MatchingPredicates(ArrayList<String> sumFiles) {
-        summaryList1 = new AuthSummary(sumFiles.get(0));
-        summaryList2 = new AuthSummary(sumFiles.get(1));
-        generate();
-    }
-    public MatchingPredicates(ArrayList<String> sumFiles, boolean isType) {
+    public MatchingPredicates(ArrayList<String> sumFiles, boolean isT) {
+        isType = isT;
         if(isType){
             summaryList1 = new TypeSummary(sumFiles.get(0));
             summaryList2 = new TypeSummary(sumFiles.get(1));
@@ -51,6 +47,13 @@ public class MatchingPredicates {
             summaryList1 = new AuthSummary(sumFiles.get(0));
             summaryList2 = new AuthSummary(sumFiles.get(1));
         }
+        generate();
+    }
+
+    public MatchingPredicates(ArrayList<String> sumFiles) {
+        summaryList1 = new AuthSummary(sumFiles.get(0));
+        summaryList2 = new AuthSummary(sumFiles.get(1));
+        isType = false;
         generate();
     }
     private void generate(){
@@ -99,16 +102,63 @@ public class MatchingPredicates {
                 predicate2 = predicate2.substring(1, predicate2.length()-1);
             }
             for (Capability testCapa : joinableWith) {
+//                 boolean print = false;
                 if(testCapa.getPredicate().equals(predicate2)){
+//                     if(isType && testCapa.getSbjAuthority().size()<=1 &&testCapa.getObjAuthority().size()<=1){
+//                         print = true;
+//                         System.out.println(testCapa.getSbjAuthority());
+//                         System.out.println(testCapa.getObjAuthority());
+//                     }
                     if ((testCapa.getSbjAuthority().size() != 0) && (testCapa.getObjAuthority().size() == 0)) {
+                        if(isType && testCapa.getSbjAuthority().size()==1 && testCapa.getSbjAuthority().contains("http://www.w3.org/2002/07/owl#Thing")){
+//                             if(print){
+//                                 System.out.println(-1);
+//                             }
+                            return -1;
+                        }
                         //There is a Star between predicate1 and predicate2
+//                         if(print){
+//                                 System.out.println(1);
+//                             }
                         return 1;
                     }
                     else if ((testCapa.getSbjAuthority().size() == 0) && (testCapa.getObjAuthority().size() != 0)) {
+                        if(isType && testCapa.getObjAuthority().size()==1 && testCapa.getObjAuthority().contains("http://www.w3.org/2002/07/owl#Thing")){
+//                             if(print){
+//                                 System.out.println(-1);
+//                             }
+                            return -1;
+                        }
+//                         if(print){
+//                                 System.out.println(2);
+//                             }
                         //There is a Path between predicate1 and predicate2
                         return 2;
                     }
                     else if ((testCapa.getSbjAuthority().size() != 0) && (testCapa.getObjAuthority().size() != 0)) {
+                        if(isType ){
+                            if( testCapa.getSbjAuthority().size()==1 && testCapa.getSbjAuthority().contains("http://www.w3.org/2002/07/owl#Thing")){
+                                if(testCapa.getObjAuthority().size()==1 && testCapa.getObjAuthority().contains("http://www.w3.org/2002/07/owl#Thing")){
+//                                 if(print){
+//                                 System.out.println(-1);
+//                             }
+                                    return -1;
+                                }else{
+//                                 if(print){
+//                                 System.out.println(2);
+//                             }
+                                    return 2;
+                                }
+                            }else if(testCapa.getObjAuthority().size()==1 && testCapa.getObjAuthority().contains("http://www.w3.org/2002/07/owl#Thing")){
+//                             if(print){
+//                                 System.out.println(1);
+//                             }
+                                return 1;
+                            }
+                        }
+//                         if(print){
+//                                 System.out.println(3);
+//                             }
                             //There is both path and star between predicate1 and predicate2
                         return 3;  
                     }

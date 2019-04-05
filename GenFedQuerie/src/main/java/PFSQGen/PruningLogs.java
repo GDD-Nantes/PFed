@@ -280,7 +280,24 @@ public class PruningLogs {
         tabTemp[indice] = element;
         return tabTemp;
     }
-
+    
+    public void countLeft(){
+        System.out.println("Predicate left from log 1:"+ logPredicatesPrun.size());
+        Set<String> pred2 = new HashSet<>();
+        Set<Integer> qu = new HashSet<>();
+        for(String s : logPredicatesPrun.keySet()){
+            pred2.addAll(logPredicatesPrun.get(s));
+            qu.addAll(log1Predicates.get(s));
+        }
+        System.out.println("Queries left from log 1:"+ qu.size());
+        System.out.println("Predicate left from log 2:"+ pred2.size());
+        qu.clear();
+        for(String s : pred2){
+            qu.addAll(log2Predicates.get(s));
+        }
+        System.out.println("Queries left from log 2:"+ qu.size());
+    }
+    
     public void pruningPredicatesLogs(String so) throws IOException {
         logPredicatesPrun = new HashMap<String, Set<String>>();
         System.out.println("Testing joinable predicates ...");

@@ -85,6 +85,10 @@ public class PFed{
             }
         }
         
+        if(cline.hasOption("i")){
+            PLpath.countLeft();
+        }
+        
         String outputDir;
         if(cline.hasOption("o")){
             outputDir = cline.getOptionValue("o");
@@ -198,6 +202,11 @@ public class PFed{
 //                         .longOpt("sage")
 //                         .desc("Uses Sage client instead of Fuseki to execute queries.")
 //                         .build();
+        Option info = Option.builder("i")
+                        .required(false)
+                        .longOpt("info")
+                        .desc("Output the number of predicates and queries left in the logs after prunning.")
+                        .build();
         Option noExec = Option.builder("noExec")
                         .required(false)
                         .longOpt("noExec")
@@ -216,6 +225,7 @@ public class PFed{
         options.addOption(max);
         options.addOption(output);
 //         options.addOption(sage);
+        options.addOption(info);
         options.addOption(noExec);
         options.addOption(withType);
         return options;
