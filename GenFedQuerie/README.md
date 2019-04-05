@@ -36,6 +36,8 @@ Build using [Maven](http://maven.apache.org/)
 
  `-t,--withType`         Also check the types of predicates before joining them.
  
+ `-i,--info`             Print informations about pruned logs.
+ 
 # Examples
  
 Generate all min path between SWDF 2012 and DBpedia 3.5.1, with results on a Fuseki endpoint:
