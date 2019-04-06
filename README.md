@@ -26,15 +26,11 @@ PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
  SELECT * WHERE { 
  
      ?inst rdf:type ?dClass .
-     
       ?inst foaf:based_near ?place .    
   SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1>
-  
     { ?place rdfs:label "United Kingdom"@en . 
       ?place dbp:capital ?capital . 
-      
       ?capital geo:lat ?lat .
-      
       ?capital geo:long ?long }}
  
  # Prefixes of Queries
