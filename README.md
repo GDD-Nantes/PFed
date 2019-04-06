@@ -1,5 +1,7 @@
 # PFed Recommending Plausible Federated Queries 
 
+# Query Logs
+- available at: https://github.com/dice-group/feasible
 # Source Code:
 - GenFedQueries
 # Recommeded Queries
