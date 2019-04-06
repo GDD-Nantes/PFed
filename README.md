@@ -14,7 +14,8 @@
  http://sage.univ-nantes.fr. 
  
  - Example: Choose "swdf-2012" in available datasets, and execute the following query:
- SELECT * WHERE { 
+ 
+
  PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
  
  PREFIX foaf: <http://xmlns.com/foaf/0.1/>
@@ -25,14 +26,20 @@
 
 PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
 
-Select * Where {
+ SELECT * WHERE { 
+ 
      ?inst rdf:type ?dClass .
-      ?inst foaf:based_near ?place 
+     
+      ?inst foaf:based_near ?place .
+      
   SERVICE <http://sage.univ-nantes.fr/sparql/dbpedia-3-5-1>
+  
     { ?place rdfs:label "United Kingdom"@en . 
       ?place dbp:capital ?capital . 
+      
       ?capital geo:lat ?lat .
-      ?capital geo:long ?long }}}
+      
+      ?capital geo:long ?long }}
  
  # Prefixes of Queries
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
