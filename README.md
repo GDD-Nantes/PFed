@@ -2,20 +2,15 @@
 
 # Source Code:
 - GenFedQueries
-
-# Summaries Code
-- Hibiscus Code available at: [genSummarieHibi]
-
 # Recommeded Queries
 -  PFed/federatedQueries/
 
 # Recommeded queries execution 
-- To facilitate the execution of federated queries, we host  SWDF and DBpediain  Sage server 
+- To facilitate the execution of federated queries, we host  SWDF and DBpedia in  Sage server 
  http://sage.univ-nantes.fr. 
  
  - Example: Choose "swdf-2012" in available datasets, and execute the following query:
  
-
  PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
  
  PREFIX foaf: <http://xmlns.com/foaf/0.1/>
