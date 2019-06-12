@@ -29,6 +29,14 @@ public abstract class Summary {
         return null;
     }
     
+    public Capability getCapaFromPred(String predicate) {
+        for (Capability testMatch : this.getCapabilities()) {
+            if (testMatch.getPredicate().equals(predicate)) {
+                return testMatch;
+            }
+        }
+        return null;
+    }
 
     @Override
     public String toString() {
