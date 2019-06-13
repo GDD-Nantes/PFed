@@ -1,4 +1,4 @@
-package Test;
+package Util;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -108,6 +108,7 @@ public class ConcatSumN3 {
     bw.write("\t.");
     bw.newLine();
     bw.write("#---------End---------");
+    bw.close();
   }
   private static String checkConfig(Properties prop,String key) throws ParseException{
       String testConf = prop.getProperty(key);

@@ -1,4 +1,4 @@
-package Test;
+package Util;
 
 import PFSQGen.Queries;
 import PFSQGen.SparqlQueryParser;

@@ -1,4 +1,4 @@
-package Test;
+package Util;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -12,6 +12,7 @@ import org.apache.jena.graph.Node;
 import org.apache.jena.query.ARQ;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryFactory;
+import java.net.URLEncoder;
 
 import PFSQGen.*;
 public class CreateQueryN3 {
@@ -22,12 +23,14 @@ public class CreateQueryN3 {
     Queries queries = new Queries(args[0], "nonCrypte");
     String outputFile = args[2];
     String dataset = args[1];
-    ArrayList<Query> niceQs = new ArrayList<>();
+    ArrayList<String> niceQs = new ArrayList<>();
+    Set<String> stopDouble = new HashSet<>();
     int cpt=0;
     for (int i =0; i<queries.getQueries().size();++i) {
       Query query = QueryFactory.create(queries.getQueries().get(i).getQueryString());
-      if (query != null) {
-        niceQs.add(query);
+      query = TransfoProto.toProto(query, new ArrayList<String>());
+      if (query != null && stopDouble.add(query.toString())) {
+        niceQs.add(URLEncoder.encode(query.toString(),"UTF-8"));
         ArrayList<Node> qPredicates = PruningLogs.getPredicates(query);
         for(Node pred : qPredicates){
           if ((pred != null) && (!pred.toString().startsWith("?"))) {
@@ -45,7 +48,7 @@ public class CreateQueryN3 {
     bw.write("@prefix un:<http://univ-nantes.fr/gdd/>.");
     bw.newLine();
     for(int i=0;i<niceQs.size();++i){
-      bw.write("_:b"+i+" un:fullQuery \""+niceQs.get(i).toString()+"\" ;");
+      bw.write("_:b"+i+" un:fullQuery \""+niceQs.get(i)+"\" ;");
       bw.newLine();
       bw.write("\t un:hasResultIn <"+dataset+"> .");
       bw.newLine();
@@ -63,5 +66,6 @@ public class CreateQueryN3 {
       bw.write("_:b"+last+" .");
       bw.newLine();
     }
+    bw.close();
   }
 }
