@@ -10,11 +10,27 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.QueryException;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSetFactory;
 
 import java.util.List;
 import java.util.ArrayList;
 
 public class FusekiExecution implements ExecutionStrategy {
+    public ResultSet execQuery(String endpointURL,Query q){
+//         queryExecution = null;
+            try(QueryExecution queryExecution = QueryExecutionFactory.sparqlService(endpointURL, q)){
+                    try{
+                        return ResultSetFactory.copyResults(queryExecution.execSelect());
+                    }catch(Exception e){
+                        System.out.println("Endpoint:"+endpointURL);
+                        System.out.println("Query:"+q);
+                        e.printStackTrace();
+                    }
+            }catch(QueryException e){
+                e.printStackTrace();
+            }
+        return null;
+    }
     public boolean hasResult(String q, String endPoint) throws QueryException{
         Query qGen = QueryFactory.create(q);
         qGen.setLimit(1);

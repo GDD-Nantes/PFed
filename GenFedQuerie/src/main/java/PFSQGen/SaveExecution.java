@@ -76,6 +76,15 @@ public class SaveExecution implements ExecutionStrategy {
         return null;  
     }
     
+    public ResultSet execQuery(String endpointURL,Query q){
+      try{
+        this.execute1Field(q.toString(), endpointURL,"");
+      }catch(Exception e){
+        e.printStackTrace();
+      }
+      return null;
+    }
+    
     public String createPath(String n1, String n2, String servN2){
         return "SELECT * WHERE {\n"
             + "\t?v0 <" + n1 + "> ?v1 . \n"
