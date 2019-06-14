@@ -1,0 +1,10 @@
+# application.yml
+
+enabledserver:
+  servlist:
+    - endpoint: http://localhost:3030/swdf/sparql
+      summary: http://localhost:3030/swdfsum/sparql
+      logs: http://localhost:3030/swdfquery/sparql
+    - endpoint: http://localhost:3030/dbpedia/sparql
+      summary: http://localhost:3030/dbpdsum/sparql
+      logs: http://localhost:3030/dbpdquery/sparql

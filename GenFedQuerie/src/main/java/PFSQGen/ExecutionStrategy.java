@@ -4,6 +4,7 @@ import org.apache.jena.query.QueryException;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.RDFNode;
 import java.util.List;
+import org.apache.jena.query.Query;
 
 public interface ExecutionStrategy{
     public ResultSet execQuery(String endpointURL,Query q);

@@ -34,10 +34,10 @@ public class CreateQueryN3 {
         ArrayList<Node> qPredicates = PruningLogs.getPredicates(query);
         for(Node pred : qPredicates){
           if ((pred != null) && (!pred.toString().startsWith("?"))) {
-            HashSet<Integer> temp = new HashSet<Integer>();
-            temp.add(cpt);
-            if(logPredicates.putIfAbsent(pred.toString(), temp) != null)
-              logPredicates.get(pred.toString()).add(cpt);
+            if(!logPredicates.containsKey(pred.toString())){
+              logPredicates.put(pred.toString(), new HashSet<>());
+            }
+            logPredicates.get(pred.toString()).add(cpt);
           }
         }
         ++cpt;

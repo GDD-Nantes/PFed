@@ -40,63 +40,56 @@ public class ConcatSumN3 {
       bw.write("\t\t\tds:predicate <"+cap.getPredicate()+"> ;");
       bw.newLine();
       //-----------------Authorities-----------
-      tmp = "";
-      last = "";
-      for(String sbj : cap.getSbjAuthority()){
-        if(!last.equals("")){
-          tmp += "<"+last+">, ";
-        }
-        last = sbj;
-      }
-      if(!last.equals("")){
-        tmp += "<"+last+"> ;";
+      if(cap.getSbjAuthority().size()> 0){
+        last = "";
         bw.write("\t\t\tds:sbjAuthority ");
-        bw.write(tmp);
+        for(String sbj : cap.getSbjAuthority()){
+          if(!last.equals("")){
+            bw.write("<"+last+">, ");
+          }
+          last = sbj;
+        }
+        bw.write("<"+last+"> ;");
         bw.newLine();
       }
-      tmp = "";
-      last = "";
-      for(String obj : cap.getObjAuthority()){
-        if(!last.equals("")){
-          tmp += "<"+last+">, ";
-        }
-        last = obj;
-      }
-      if(!last.equals("")){
-        tmp += "<"+last+"> ;";
+      
+      if(cap.getObjAuthority().size()>0){
+        last = "";
         bw.write("\t\t\tds:objAuthority ");
-        bw.write(tmp);
+        for(String obj : cap.getObjAuthority()){
+          if(!last.equals("")){
+            bw.write("<"+last+">, ");
+          }
+          last = obj;
+        }
+        bw.write("<"+last+"> ;");
         bw.newLine();
       }
       //----------------Types-------------------
       capaT = typeSum.getCapaFromPred(cap.getPredicate());
       if(capaT != null){
-        tmp = "";
-        last = "";
-        for(String sbj : capaT.getSbjAuthority()){
-          if(!last.equals("")){
-            tmp += "<"+last+">, ";
+        if(capaT.getSbjAuthority().size()>0){
+          last = "";
+          bw.write("\t\t\tun:sbjType ");
+          for(String sbj : capaT.getSbjAuthority()){
+            if(!last.equals("")){
+              bw.write("<"+last+">, ");
+            }
+            last = sbj;
           }
-          last = sbj;
-        }
-        if(!last.equals("")){
-          tmp += "<"+last+"> ;";
-          bw.write("\t\t\tds:sbjType ");
-          bw.write(tmp);
+          bw.write("<"+last+"> ;");
           bw.newLine();
         }
-        tmp = "";
-        last = "";
-        for(String obj : capaT.getObjAuthority()){
-          if(!last.equals("")){
-            tmp += "<"+last+">, ";
+        if(capaT.getObjAuthority().size()>0){
+          last = "";
+          bw.write("\t\t\tun:objType ");
+          for(String obj : capaT.getObjAuthority()){
+            if(!last.equals("")){
+              bw.write("<"+last+">, ");
+            }
+            last = obj;
           }
-          last = obj;
-        }
-        if(!last.equals("")){
-          tmp += "<"+last+"> ;";
-          bw.write("\t\t\tds:objType ");
-          bw.write(tmp);
+          bw.write("<"+last+"> ;");
           bw.newLine();
         }
       }
