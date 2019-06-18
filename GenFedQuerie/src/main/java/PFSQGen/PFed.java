@@ -18,6 +18,7 @@ import org.apache.jena.sparql.syntax.ElementPathBlock;
 import org.apache.jena.sparql.syntax.syntaxtransform.QueryTransformOps;
 import org.apache.jena.query.ARQ;
 import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSetFormatter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +32,8 @@ import java.util.Iterator;
 import java.net.URLEncoder;
 import java.net.URLDecoder;
 
+import java.io.ByteArrayOutputStream;
+
 @RestController
 public class PFed{
   private EnabledServer servL;
@@ -38,6 +41,24 @@ public class PFed{
     @Autowired
   public void setServL(EnabledServer servL){
     this.servL = servL;
+  }
+  
+  @RequestMapping("/execQuery")
+  public String execQuery(@RequestParam(value="endP",required=false, defaultValue="http://localhost:3030/dbpedia/sparql")String endP,@RequestParam(value="query", defaultValue="SELECT * { ?s ?p ?o }")String query) {
+    ARQ.init();
+    ExecutionStrategy executor = new FusekiExecution();
+    Query q = QueryFactory.create(query);
+    ResultSet rs = executor.execQuery(endP,q);
+    if(rs.hasNext()){
+      //Save query in logs (split service)
+    }
+    //https://stackoverflow.com/questions/32982954/how-to-save-jena-sparql-query-resultset-as-json
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+    ResultSetFormatter.outputAsJSON(outputStream, rs);
+
+    // and turn that into a String
+    return new String(outputStream.toByteArray());
   }
   
   @RequestMapping("/PFed")
@@ -52,6 +73,7 @@ public class PFed{
         Set<String> resFed = new HashSet<>();
 //         System.out.println(servL);
         //For each var, pick a pred and findingMinStar(Type)
+        String federated = "[ ";
         for(String var : varPred.keySet()){
           String pred = varPred.get(var).iterator().next();
           ResultSet rs;
@@ -93,13 +115,20 @@ public class PFed{
           }
         //For each solution, build a federated query (=> for now one big)
           String qJoinVar = q.toString().replaceAll(var.substring(1,var.length())+"\\b", "joinVar1");
-          qJoinVar = cutQuery(qJoinVar,"0_0");
+          qJoinVar = cutQuery(qJoinVar,"0");
+          String superQuery="";
+          federated += "{\"va\":\""+var+"\",\"start\":\"";
+            try{
+              federated += URLEncoder.encode(qJoinVar,"UTF-8")+"%0A\",";
+            }catch(Exception e){
+              e.printStackTrace();
+            }
+            federated += "\"service\":[ ";
           for(FedQuery fq : allFQ){
-            String federated = "SELECT * {\n";
-            federated += qJoinVar+"\n";
+//             superQuery="";
             for(PredOnEnd poe : fq.getFed()){
               int cptPred = 0;
-              String superQuery = "";
+              superQuery += "{\"dataset\":\""+otherEndp.get(poe.getEndpoint())+"\",\"predicate\":\""+poe.getPredicate()+"\",\"queries\":[ ";
             System.out.println(poe.getPredicate());
               for(String tmpQ: datasWithPredInQuery.get(poe.getEndpoint()).get(poe.getPredicate())){
                 try{
@@ -115,24 +144,26 @@ public class PFed{
                   }
                   decodedQ = decodedQ.replaceAll(tmpVar.substring(1,tmpVar.length())+"\\b", "joinVar1");
                   decodedQ = cutQuery(decodedQ,""+poe.getEndpoint()+"_"+ ++cptPred);
-                  superQuery += decodedQ;
+                  superQuery += "\""+URLEncoder.encode(decodedQ,"UTF-8")+"\",";
                 }catch(Exception e){
                   e.printStackTrace();
                 }
               }
-              if(!superQuery.equals("")){
-                federated += "SERVICE <"+otherEndp.get(poe.getEndpoint())+"> {\n" + superQuery + "\nFILTER( BOUND( ?joinVar1 ))\n}\n";
-              }
+//               if(!superQuery.equals("")){
+//                 federated += "SERVICE <"+otherEndp.get(poe.getEndpoint())+"> {\n" + superQuery + "\nFILTER( BOUND( ?joinVar1 ))\n}\n";
+//               }
+              superQuery=superQuery.substring(0,superQuery.length()-1)+"]}\n,";
             }
-            federated +="}";
-            try{
-              resFed.add("\""+URLEncoder.encode(federated,"UTF-8")+"\"");
-            }catch(Exception e){
-              e.printStackTrace();
-            }
+//             try{
+//               resFed.add("\""+URLEncoder.encode(federated,"UTF-8")+"\"");
+//             }catch(Exception e){
+//               e.printStackTrace();
+//             }
           }
+          federated += superQuery.substring(0,superQuery.length()-1) + "]},";
         }
-        return resFed.toString();
+//         return resFed.toString();
+      return federated.substring(0,federated.length()-1) + "]";
     }
     
     public static Map<String,Set<String>> extractVarPred(Query q/*, Map<String,Set<String>> varPred*/){
