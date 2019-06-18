@@ -127,32 +127,34 @@ public class PFed{
           for(FedQuery fq : allFQ){
 //             superQuery="";
             for(PredOnEnd poe : fq.getFed()){
-              int cptPred = 0;
-              superQuery += "{\"dataset\":\""+otherEndp.get(poe.getEndpoint())+"\",\"predicate\":\""+poe.getPredicate()+"\",\"queries\":[ ";
-            System.out.println(poe.getPredicate());
-              for(String tmpQ: datasWithPredInQuery.get(poe.getEndpoint()).get(poe.getPredicate())){
-                try{
-                  String decodedQ = URLDecoder.decode(tmpQ,"UTF-8");
-                  //Find var name for subject predicate of this query
-                  Map<String,Set<String>> tmpVarPred = this.extractVarPred(QueryFactory.create(decodedQ));
-                  String tmpVar = "";
-                  for(String v : tmpVarPred.keySet()){
-                    if(tmpVarPred.get(v).contains(poe.getPredicate())){
-                      tmpVar = v;
-                      break;
+              if(datasWithPredInQuery.get(poe.getEndpoint()).get(poe.getPredicate()).size() > 0){
+                int cptPred = 0;
+                superQuery += "{\"dataset\":\""+otherEndp.get(poe.getEndpoint())+"\",\"predicate\":\""+poe.getPredicate()+"\",\"queries\":[ ";
+//               System.out.println(poe.getPredicate());
+                for(String tmpQ: datasWithPredInQuery.get(poe.getEndpoint()).get(poe.getPredicate())){
+                  try{
+                    String decodedQ = URLDecoder.decode(tmpQ,"UTF-8");
+                    //Find var name for subject predicate of this query
+                    Map<String,Set<String>> tmpVarPred = this.extractVarPred(QueryFactory.create(decodedQ));
+                    String tmpVar = "";
+                    for(String v : tmpVarPred.keySet()){
+                      if(tmpVarPred.get(v).contains(poe.getPredicate())){
+                        tmpVar = v;
+                        break;
+                      }
                     }
+                    decodedQ = decodedQ.replaceAll(tmpVar.substring(1,tmpVar.length())+"\\b", "joinVar1");
+                    decodedQ = cutQuery(decodedQ,""+poe.getEndpoint()+"_"+ ++cptPred);
+                    superQuery += "\""+URLEncoder.encode(decodedQ,"UTF-8")+"\",";
+                  }catch(Exception e){
+                    e.printStackTrace();
                   }
-                  decodedQ = decodedQ.replaceAll(tmpVar.substring(1,tmpVar.length())+"\\b", "joinVar1");
-                  decodedQ = cutQuery(decodedQ,""+poe.getEndpoint()+"_"+ ++cptPred);
-                  superQuery += "\""+URLEncoder.encode(decodedQ,"UTF-8")+"\",";
-                }catch(Exception e){
-                  e.printStackTrace();
                 }
+  //               if(!superQuery.equals("")){
+  //                 federated += "SERVICE <"+otherEndp.get(poe.getEndpoint())+"> {\n" + superQuery + "\nFILTER( BOUND( ?joinVar1 ))\n}\n";
+  //               }
+                superQuery=superQuery.substring(0,superQuery.length()-1)+"]}\n,";
               }
-//               if(!superQuery.equals("")){
-//                 federated += "SERVICE <"+otherEndp.get(poe.getEndpoint())+"> {\n" + superQuery + "\nFILTER( BOUND( ?joinVar1 ))\n}\n";
-//               }
-              superQuery=superQuery.substring(0,superQuery.length()-1)+"]}\n,";
             }
 //             try{
 //               resFed.add("\""+URLEncoder.encode(federated,"UTF-8")+"\"");

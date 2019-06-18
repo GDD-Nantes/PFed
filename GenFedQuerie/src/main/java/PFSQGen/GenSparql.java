@@ -34,12 +34,14 @@ public class GenSparql {
       res+= " {\n"+
             " ?x ds:predicate <"+predStart+"> ;\n"+
             "   ds:sbjAuthority ?sbjAuth ;\n"+
-            "   un:sbjType ?sbjType .\n";
+            "   un:sbjType ?sbjType .\n"+
+            " FILTER (!regex(str(?sbjType), \"^http://www.w3.org/2002/07/owl#Thing\"))";
             for(int i =0;i<urlNext.size();++i){
         res+= " SERVICE <"+servL.getPropByName(urlNext.get(i)).getSummary()+"> {\n"+
               "   ?x"+ i +" ds:predicate ?p"+i+" ;\n"+
               "     ds:sbjAuthority ?sbjAuth ;\n"+
               "     un:sbjType ?sbjType .\n"+
+              " FILTER (!regex(str(?sbjType), \"^http://www.w3.org/2002/07/owl#Thing\"))"+
               " }\n";
             }
       res+="}";

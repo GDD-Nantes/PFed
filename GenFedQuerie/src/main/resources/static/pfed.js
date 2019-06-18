@@ -2,6 +2,7 @@ var root = document.body
 var fed = 0
 var serverIP= "172.16.9.133"
 var endpointAddr="localhost"
+var endPointsFull = [{name:'DBpedia',addr:"http://"+endpointAddr+":3030/dbpedia/sparql"},{addr: "http://"+endpointAddr+":3030/swdf/sparql",name:'Semantic Web DogFood'}]
 function Header(){
   return {
     view: function(vnode) {
@@ -29,11 +30,25 @@ var queryData = function() {
   })
 }
 
+function getStringUnselectedEndp(){
+  res = "";
+  last = "";
+  endPointsFull.forEach((x)=>{
+    if(x.addr != document.getElementById("endpoint").value){
+      if(last != ""){
+        res += last + ","; 
+      }
+      last = x.addr;
+    }
+  })
+  return res + last;
+}
+
 function fedIt(){
   m.request({
     method: "GET",
     url: "http://"+serverIP+":8080/PFed?",
-    data: {query: document.getElementById("queryToSend").value, endP: document.getElementById("endpoint").value},
+    data: {query: document.getElementById("queryToSend").value, endP: document.getElementById("endpoint").value, feds:getStringUnselectedEndp()},
   })
   .then(function(data) {
     HFvalues.parseResponse(data);
@@ -164,7 +179,7 @@ var startForV = {
     }
   },
   getStartQ: function(){
-    return this.start;
+    return decodeURIComponent(this.start.replace(/\+/g, '%20'));
   },
   getVar: function(){
     return this.vCurr;
@@ -178,7 +193,7 @@ var startForV = {
     return [m("div",[
             m("div",{class:"row"},[
               m("div",{class:"col"},[
-                m("textArea", {id: "startQuery", class: "form-control"},decodeURIComponent(this.getStartQ().replace(/\+/g, '%20'))),
+                m("textArea", {id: "startQuery", class: "form-control"},this.getStartQ()),
               ]),
               m("div",{class:"col-md-auto"},[
                 m("div",{class:"btn-group",role:"group"},[
@@ -324,6 +339,14 @@ function QueryEditor(){
     }
 }
 
+function optionsEndps(){
+  tmpEnd = [];
+  endPointsFull.forEach((x)=>{
+    tmpEnd.push(m("option", {value: x.addr, id:x.addr}, x.name));
+  })
+  return tmpEnd;
+}
+
 var Query = {
     view: function() {
       return m("div",[
@@ -342,10 +365,7 @@ var Query = {
 //                 m("input",{class:"form-check-input",type:"radio",name:"queryChoice", id:"queryChoiceP",value:"choiceP"}),
 //                 m("label",{class:"form-check-label",for:"queryChoiceP"},"Simple predicate")
 //               ]),
-              m("select",{id:"endpoint", class: "custom-select", placeholder: "Endpoint URL"},[
-                m("option", {value: "http://"+endpointAddr+":3030/dbpedia/sparql", id:"http://"+endpointAddr+":3030/dbpedia/sparql"}, 'DBpedia'),
-                m("option", {value: "http://"+endpointAddr+":3030/swdf/sparql", id:"http://"+endpointAddr+":3030/swdf/sparql"}, 'Semantic Web DogFood')
-              ]),
+              m("select",{id:"endpoint", class: "custom-select", placeholder: "Endpoint URL"}, optionsEndps()),
               m("textArea", {id: "queryToSend", class: "form-control"},""), 
               m("button", {
                   class: "btn btn-primary",
@@ -358,11 +378,7 @@ var Query = {
                 class: "title"
               }, "Query editor"),
               m("div",{id: "showcase"}),
-              m("select",{id:"endpointEditor", class: "custom-select", placeholder: "Endpoint URL"},[
-                m("option", {value: "http://"+endpointAddr+":3030/dbpedia/sparql", id:"http://"+endpointAddr+":3030/dbpedia/sparql"}, 'DBpedia'),
-                m("option", {value: "http://"+endpointAddr+":3030/swdf/sparql", id:"http://"+endpointAddr+":3030/swdf/sparql"}, 'Semantic Web DogFood')
-              
-              ]),
+              m("select",{id:"endpointEditor", class: "custom-select", placeholder: "Endpoint URL"},optionsEndps()),
               m("div", {class: "btn-group" },[ 
                   m("button", {
                       type: "button",
